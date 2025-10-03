@@ -1,5 +1,4 @@
 # Stock Trading Trade
-# Stock Trading ML
 
 This project is connected to the other two repositories. Different repos for better encapsulation, since these projects will be run on separate Proxmox containers: 
 
