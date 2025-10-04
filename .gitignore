@@ -1,2 +1,4 @@
 build/
 api/
+.clangd
+compile_commands.json
