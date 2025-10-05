@@ -8,20 +8,16 @@ wget https://interactivebrokers.github.io/downloads/twsapi_macunix.1037.02.zip \
     && mkdir -p api/ \
     && mv IBJts api/
 
-#&& rm twsapi_macunix.1037.02.zip \
 API_SRC=api/IBJts/source
 
 echo "Deleting unnecessary APIs..."
 echo "Deleting Python Module"
-#rm -rf "$API_SRC/pythonclient"
 
 echo "Deleting Java Module"
-#rm -rf "$API_SRC/JavaClient"
 
 
 INTEL=IntelRDFPMathLib20U2
 
-#&& rm "$INTEL.tar.gz" \ 
 echo "Installing Intel Math modules..."
 wget http://www.netlib.org/misc/intel/IntelRDFPMathLib20U2.tar.gz \
     && tar -xvzf "$INTEL.tar.gz" \
@@ -74,5 +70,5 @@ cd ../..
 rm -rf ./META-INF/
 rm -rf  "./$INTEL.tar.gz" ./twsapi_macunix.1037.02.zip
 
-
+echo "Done!"
 

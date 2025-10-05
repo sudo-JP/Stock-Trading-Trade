@@ -7,16 +7,15 @@ RUN apt-get update && apt-get install -y \
     protobuf-compiler \ 
     libprotobuf-dev \ 
     git \
-    wget 
+    wget \
+    unzip \
+    && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 
 COPY . . 
 
-RUN cd api/IBJts/source/IntelTBB/LIBRARY && \
-    make CC=gcc CALL_BY_REF=0 GLOBAL_RND=0 GLOBAL_FLAGS=0 UNCHANGED_BINARY_FLAGS=0 && \
-    cp libbid.a ../cppclient/
-
+RUN chmod +x setup_api.sh && ./setup_api.sh
 
 RUN mkdir -p build 
 
@@ -26,4 +25,4 @@ RUN cmake .. -G Ninja && ninja
 
 WORKDIR /app
 
-CMD [ "./build/main" ]
+CMD [ "./build/src/trade" ]

@@ -1,9 +1,7 @@
-version: '3.8'
-
 services: 
   trade: 
     build: .
-    container_name: parallel-stock-trading-trade
+    container_name: stock-trading-trade
     ports:
       - "5000:5000"
     volumes:
