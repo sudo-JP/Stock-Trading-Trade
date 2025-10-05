@@ -9,6 +9,6 @@ add_executable(trade main.cpp)
 #)
 
 target_link_libraries(trade PRIVATE 
-    #network
+    network
     ib_api
 )
