@@ -23,3 +23,20 @@ TradingOrder TradingOrder::LimitOrder(const std::string& action, double quantity
    to.order.lmtPrice = limitPrice; 
    return to;
 }
+
+bool TradingOrder::isValid() const {
+   if (order.orderType.empty()) return false; 
+
+   if (order.action.empty() || order.tif.empty() || order.totalQuantity <= 0) return false; 
+
+   if (order.action != "BUY" && order.action != "SELL") return false; 
+
+   if (order.orderType == "MKT") {
+      return true; 
+   }
+   else if (order.orderType == "LMT" && order.lmtPrice > 0) {
+      return true;
+   }
+
+   return false; 
+}
