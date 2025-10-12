@@ -22,3 +22,19 @@ TradingContract TradingContract::Option(const std::string& symbol, const std::st
     contract.contract.lastTradeDateOrContractMonth = expiry; 
     return contract;
 }
+
+bool TradingContract::isValid() const {
+    if (contract.symbol.empty() || contract.exchange.empty() || contract.currency.empty()) {
+        return false; 
+    }
+    
+    if (contract.secType == "STK") {
+        return true; 
+    }
+    else if (contract.secType == "OPT") {
+        return !contract.lastTradeDateOrContractMonth.empty() &&
+            contract.strike > 0 && (contract.right == "P" || contract.right == "C");
+    }
+    
+    return false; 
+}
