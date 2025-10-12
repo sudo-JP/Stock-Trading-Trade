@@ -9,7 +9,8 @@ class TradingContract {
         const Contract &getContract() const { return contract; }
 
         // Create a stock contract 
-        static TradingContract Stock(const std::string& symbol, const std::string& exchange, const std::string& currency);
+        static TradingContract Stock(const std::string& symbol, const std::string& exchange, 
+                const std::string& currency);
 
         /* @brief Create an option contract
         * @param symbol 
@@ -17,7 +18,8 @@ class TradingContract {
         * @param strike The strike price 
         * @param exchange The exchange type 
         * */
-        static TradingContract Option(const std::string& symbol, const std::string& expiry, double strike, const std::string& right, const std::string& exchange);
+        static TradingContract Option(const std::string& symbol, const std::string& expiry, 
+                double strike, const std::string& right, const std::string& exchange);
 
         /*
          * @brief check if contract is valid
