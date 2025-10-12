@@ -4,6 +4,8 @@
 class TradingOrder {
     public: 
 
+        TradingOrder(const std::string& action, double quantity, const std::string& timeInForce = "DAY"); 
+
         /**
         * @brief Creates a market order for immediate execution
         * @param action "BUY" or "SELL"
@@ -23,7 +25,7 @@ class TradingOrder {
         * @return TradingOrder configured as a limit order
         */
         static TradingOrder LimitOrder(const std::string& action, double quantity, 
-                double limitPrice, std::string& timeInForce);
+                double limitPrice, const std::string& timeInForce);
 
         /*
          * @brief gets the order object 
