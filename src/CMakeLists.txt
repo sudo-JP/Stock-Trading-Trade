@@ -1,14 +1,25 @@
 add_executable(trade main.cpp)
 
-#file(GLOB NETWORK_SOURCES "network/ib_api/*.cpp")
-#add_library(network STATIC ${NETWORK_SOURCES})
-#target_include_directories(network PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/network)
-#
-#target_include_directories(trade PRIVATE
-#${CMAKE_CURRENT_SOURCE_DIR} 
-#)
+file(GLOB_RECURSE SOURCE_FILES
+    "*.cpp"
+    "core/*.cpp"
+    "execution/*.cpp"
+    "networking/*.cpp"
+)
+
+file(GLOB_RECURSE HEADER_FILES 
+    "*.h"
+    "core/*.h"
+    "execution/*.h"
+    "networking/*.h"
+)
+
+target_sources(trade PRIVATE ${SOURCE_FILES} ${HEADER_FILES})
+
+target_include_directories(trade PRIVATE 
+    ${CMAKE_CURRENT_SOURCE_DIR}
+)
 
 target_link_libraries(trade PRIVATE 
-    network
     ib_api
 )
