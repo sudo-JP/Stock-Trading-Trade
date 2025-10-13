@@ -2,3 +2,6 @@ build/
 api/
 .clangd
 compile_commands.json
+curlpp-0.8.1/
+CMAKE.sh
+setup_api.sh
