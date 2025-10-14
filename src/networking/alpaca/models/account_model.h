@@ -1,3 +1,4 @@
+#include <chrono>
 #include <string>
 #ifndef _ACCOUNT_MODEL_H
 #define _ACCOUNT_MODEL_H
@@ -19,12 +20,23 @@ struct Account {
     // Performance
     double unrealized_pl; 
     double realized_pl;
-    double daily_change;
-    double daily_change_percentage; 
 
     // Status
     AccountStatus status; 
-
+    std::chrono::system_clock::time_point last_update;
 }; 
+
+enum TimeFrame {
+    HOURLY, 
+    DAILY, 
+    WEEKLY, 
+    MONTHLY
+};
+
+struct PnLData {
+    double absolute_change;    // Dollar amount gained/lost
+    double percentage_change;  // Percentage gained/lost
+    TimeFrame time; 
+};
 
 #endif 
