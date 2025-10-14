@@ -12,5 +12,9 @@ if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Release)
 endif()
 
+target_include_directories(trade PRIVATE 
+    ${CMAKE_SOURCE_DIR}/library
+)
+
 add_subdirectory(src)
 
