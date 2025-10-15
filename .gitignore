@@ -1,7 +1,5 @@
 build/
-api/
 .clangd
 compile_commands.json
-CMAKE.sh
-setup_api.sh
 library/
+.env
