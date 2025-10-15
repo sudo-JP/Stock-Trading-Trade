@@ -1,9 +1,11 @@
 #include "account_model.h"
-#include <chrono>
+#include "config.h"
 #ifndef _ACCOUNT_SERVICE_H_
 #define _ACCOUNT_SERVICE_H_
 class AccountService {
     public: 
+        //AccountService(ENV t_env) { env = env; }
+
         /**
         * @brief Fetches complete account information from Alpaca API
         * @return Account struct populated with current account data
@@ -43,7 +45,7 @@ class AccountService {
 
     private: 
         Account account; 
-
+        ENV env; 
 };
 
 #endif
