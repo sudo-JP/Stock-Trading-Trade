@@ -1,4 +1,6 @@
 #include <string> 
+#include "http/httplib.h"
+#include "json/json.hpp"
 #ifndef _CONFIG_H_
 #define _CONFIG_H_
 
@@ -9,5 +11,7 @@ typedef struct env_t {
 } ENV; 
 
 ENV get_env();
+
+using json = nlohmann::json;
 
 #endif

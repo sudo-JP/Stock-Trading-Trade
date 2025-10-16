@@ -13,12 +13,15 @@ target_compile_options(trade PRIVATE
 
 target_include_directories(trade PRIVATE 
     ${CMAKE_CURRENT_SOURCE_DIR}
+    ${CMAKE_CURRENT_SOURCE_DIR}/core/config
     ${CMAKE_CURRENT_SOURCE_DIR}/networking/alpaca/models
-    ${CMAKE_CURRENT_SOURCE_DIR}/networking/alpaca/services
+    ${CMAKE_CURRENT_SOURCE_DIR}/networking/alpaca/services/account
     ${CMAKE_SOURCE_DIR}/library
 )
 
 
 target_sources(trade PRIVATE
-    
+    main.cpp    
+    networking/alpaca/services/account/account_service.cpp
+    core/config/config.cpp
 )

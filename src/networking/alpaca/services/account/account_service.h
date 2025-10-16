@@ -1,9 +1,12 @@
 #include "account_model.h"
-#include <chrono>
+#include <string>
+#include "config.h"
 #ifndef _ACCOUNT_SERVICE_H_
 #define _ACCOUNT_SERVICE_H_
 class AccountService {
     public: 
+        AccountService(ENV t_env) : env(t_env) {}
+
         /**
         * @brief Fetches complete account information from Alpaca API
         * @return Account struct populated with current account data
@@ -31,7 +34,7 @@ class AccountService {
         * @return PnLData containing absolute and percentage change
         * @note Uses last_equity vs current_equity from account data
         */
-        PnLData get_daily_performance();
+        PnLData get_daily_performance();   // need to wait for TCP connections for getting data from rust back end 
 
         /**
         * @brief Quick health check of account connectivity and basic status
@@ -43,7 +46,8 @@ class AccountService {
 
     private: 
         Account account; 
-
+        ENV env; 
+        const std::string route = "/v2/account"; 
 };
 
 #endif
