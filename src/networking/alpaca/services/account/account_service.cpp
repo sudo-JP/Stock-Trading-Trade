@@ -14,7 +14,7 @@ Account AccountService::getAccount(bool refreshed) {
 
     // Error respond 
     if (!res || res->status != 200) {
-        account.status = INACTIVE;
+        account.status = Status::INACTIVE;
         std::cerr << "HTTP Error: " << (res ? res->status : -1) << std::endl;
         return account;
     }
@@ -24,7 +24,7 @@ Account AccountService::getAccount(bool refreshed) {
         json data = json::parse(res->body); 
 
         account.account_id = data["id"]; 
-        data["status"] == "ACTIVE" ? account.status = ACTIVE : account.status = INACTIVE;
+        data["status"] == "ACTIVE" ? account.status = Status::ACTIVE : account.status = Status::INACTIVE;
     
         account.currency = data["currency"]; 
         account.cash = std::stod(data["cash"].get<std::string>());
@@ -33,7 +33,7 @@ Account AccountService::getAccount(bool refreshed) {
         
     } catch (const std::exception &e) {
         std::cerr << "Failed to parse JSON for account: " << e.what() << std::endl;
-        account.status = INACTIVE; 
+        account.status = Status::INACTIVE; 
         return account;
     }
 
@@ -41,5 +41,5 @@ Account AccountService::getAccount(bool refreshed) {
 }
 
 bool AccountService::can_trade(double required_amount) {
-   return account.status == ACTIVE && account.buying_power >= required_amount; 
+   return account.status == Status::ACTIVE && account.buying_power >= required_amount; 
 }

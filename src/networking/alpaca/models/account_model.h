@@ -1,5 +1,6 @@
 #include <chrono>
 #include <string>
+#include "status.h"
 #ifndef _ACCOUNT_MODEL_H
 #define _ACCOUNT_MODEL_H
 
@@ -22,7 +23,7 @@ struct Account {
     double realized_pl;
 
     // Status
-    AccountStatus status; 
+    Status status; 
     std::chrono::system_clock::time_point last_update;
 }; 
 
