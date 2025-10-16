@@ -2,6 +2,7 @@
 
 Account AccountService::getAccount(bool refreshed) {
     if (!refreshed) return account; 
+    std::cout << "URL: " << env.URL << std::endl;
     account.last_update = std::chrono::system_clock::now();
     httplib::SSLClient client(env.URL); 
     httplib::Headers payload = {

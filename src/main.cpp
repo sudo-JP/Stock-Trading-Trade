@@ -1,18 +1,11 @@
 #include <iostream> 
-//#include "../library/http/httplib.h"
-#include "http/httplib.h"
-#include "json/json.hpp"
-#include <stdlib.h>
-#include <cstdlib>
-
+#include "account_service.h"
+#include "config.h"
 
 
 int main() {
-    //httplib::Client cli("https://wttr.in");
-
-    //auto res = cli.Get("/?format=j1");
-    //std::cout << res->body;
-    //std::cout << getenv("ALPACA_KEY");
-    std::cout << "bruh";
+    AccountService as(get_env());  
+    Account acc = as.getAccount(true);
+    std::cout << acc.cash;
     return 0; 
 }
