@@ -1,4 +1,5 @@
 #include "account_model.h"
+#include <string>
 #include "config.h"
 #ifndef _ACCOUNT_SERVICE_H_
 #define _ACCOUNT_SERVICE_H_
@@ -46,6 +47,7 @@ class AccountService {
     private: 
         Account account; 
         ENV env; 
+        const std::string route = "/v2/account"; 
 };
 
 #endif
