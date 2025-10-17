@@ -5,7 +5,7 @@
 #define _ACCOUNT_SERVICE_H_
 class AccountService {
     public: 
-        AccountService(ENV t_env) : env(t_env) {}
+        AccountService(const ENV t_env) : env(t_env) {}
 
         /**
         * @brief Fetches complete account information from Alpaca API
@@ -46,7 +46,7 @@ class AccountService {
 
     private: 
         Account account; 
-        ENV env; 
+        const ENV env; 
         const std::string route = "/v2/account"; 
 };
 

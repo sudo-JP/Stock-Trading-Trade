@@ -6,7 +6,7 @@
 
 class AssetService {
     public:
-        AssetService(ENV t_env) : env(t_env) {};
+        AssetService(const ENV t_env) : env(t_env) {};
         /*
          * @brief Fetches the asset from Alpaca API 
          * @param symbol The symbol of the asset 
@@ -21,7 +21,7 @@ class AssetService {
         std::vector<Asset> get_assets(); 
 
     private: 
-        ENV env; 
+        const ENV env; 
         const std::string route = "/v2/assets/";
 };
 
