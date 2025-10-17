@@ -1,7 +1,7 @@
 #include <string>
 #include "status.h"
-#ifndef _ASSET_H_
-#define _ASSET_H_ 
+#ifndef _ASSET_MODEL_H_
+#define _ASSET_MODEL_H_ 
 
 struct Asset {
     std::string id;
