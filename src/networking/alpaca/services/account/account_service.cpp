@@ -1,8 +1,8 @@
 #include "account_service.h"
+#include <boost/algorithm/string.hpp>
 
 Account AccountService::getAccount(bool refreshed) {
     if (!refreshed) return account; 
-    std::cout << "URL: " << env.URL << std::endl;
     account.last_update = std::chrono::system_clock::now();
     httplib::SSLClient client(env.URL); 
     httplib::Headers payload = {
@@ -11,10 +11,10 @@ Account AccountService::getAccount(bool refreshed) {
     }; 
 
     auto res = client.Get(route, payload); 
+    account.status = Status::INACTIVE; 
 
     // Error respond 
     if (!res || res->status != 200) {
-        account.status = Status::INACTIVE;
         std::cerr << "HTTP Error: " << (res ? res->status : -1) << std::endl;
         return account;
     }
@@ -24,7 +24,7 @@ Account AccountService::getAccount(bool refreshed) {
         json data = json::parse(res->body); 
 
         account.account_id = data["id"]; 
-        data["status"] == "ACTIVE" ? account.status = Status::ACTIVE : account.status = Status::INACTIVE;
+        boost::iequals(data["status"], "ACTIVE") ? account.status = Status::ACTIVE : account.status = Status::INACTIVE;
     
         account.currency = data["currency"]; 
         account.cash = std::stod(data["cash"].get<std::string>());
@@ -33,7 +33,6 @@ Account AccountService::getAccount(bool refreshed) {
         
     } catch (const std::exception &e) {
         std::cerr << "Failed to parse JSON for account: " << e.what() << std::endl;
-        account.status = Status::INACTIVE; 
         return account;
     }
 

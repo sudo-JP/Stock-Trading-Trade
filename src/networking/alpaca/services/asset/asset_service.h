@@ -1,10 +1,12 @@
 #include "asset.h"
+#include "config.h"
 #include <vector>
 #ifndef _ASSET_SERVICE_H_
 #define _ASSET_SERVICE_H_
 
 class AssetService {
     public:
+        AssetService(ENV t_env) : env(t_env) {};
         /*
          * @brief Fetches the asset from Alpaca API 
          * @param symbol The symbol of the asset 
@@ -18,20 +20,9 @@ class AssetService {
          * */
         std::vector<Asset> get_assets(); 
 
-        /*
-         * @brief Check if given symbol is tradable 
-         * @param symbol The symbol to be checked 
-         * @return true if tradable 
-         * */
-        bool is_tradable(const std::string &symbol); 
-
-        /*
-         * @brief Check if symbol is valid, should be used before 
-         * @brief attempting to get an asset 
-         * @param symbol The symbol to be checked 
-         * @return true if symbol exists 
-         * */
-        bool is_valid_symbol(const std::string &symbol);
+    private: 
+        ENV env; 
+        const std::string route = "/v2/assets/";
 };
 
 #endif 
