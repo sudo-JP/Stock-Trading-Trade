@@ -8,6 +8,7 @@ if(OPENSSL_FOUND)
 endif()
 
 target_compile_options(trade PRIVATE 
+    -fopenmp
     -O2
 )
 

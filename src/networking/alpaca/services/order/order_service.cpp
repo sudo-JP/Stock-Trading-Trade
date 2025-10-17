@@ -1,5 +1,5 @@
 #include "order_service.h"
-#include <omp.h>
+#include <future>
 
 Order OrderService::process_order(OrderPayload order_payload) {
     httplib::SSLClient client(env.URL); 
@@ -48,3 +48,18 @@ Order OrderService::process_order(OrderPayload order_payload) {
 
     return order; 
 }
+
+
+std::vector<std::future<Order>> OrderService::mass_process(std::vector<OrderPayload> order_payloads) {
+    std::vector<std::future<Order>> futures; 
+    int n = order_payloads.size();
+
+    for (OrderPayload &payload : order_payloads) {
+        futures.push_back(std::async(std::launch::async, [this, payload] {
+            return this->process_order(payload);
+        }));
+    }
+
+    return futures; 
+}
+
