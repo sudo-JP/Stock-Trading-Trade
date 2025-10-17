@@ -1,4 +1,4 @@
-#include "asset.h"
+#include "asset_model.h"
 #include "config.h"
 #include <vector>
 #ifndef _ASSET_SERVICE_H_

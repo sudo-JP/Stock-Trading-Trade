@@ -1,8 +1,8 @@
 #include <chrono>
 #include <string>
 #include "status.h"
-#ifndef _ACCOUNT_MODEL_H
-#define _ACCOUNT_MODEL_H
+#ifndef _ACCOUNT_MODEL_H_
+#define _ACCOUNT_MODEL_H_
 
 enum AccountStatus {
     ACTIVE,
