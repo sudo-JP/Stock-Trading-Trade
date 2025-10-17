@@ -8,9 +8,9 @@ class OrderService {
     public: 
         OrderService(const ENV env_t) : env(env_t) {};
 
-        Order process_order(OrderPayload payload);
+        Order process_order(OrderPayload order_payload);
 
-        std::vector<Order> mass_process(std::vector<Order> payloads);
+        std::vector<Order> mass_process(std::vector<Order> order_payloads);
 
     private:
         const ENV env;

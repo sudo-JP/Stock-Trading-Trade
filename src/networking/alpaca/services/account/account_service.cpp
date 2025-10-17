@@ -5,12 +5,12 @@ Account AccountService::getAccount(bool refreshed) {
     if (!refreshed) return account; 
     account.last_update = std::chrono::system_clock::now();
     httplib::SSLClient client(env.URL); 
-    httplib::Headers payload = {
+    httplib::Headers headers = {
         {"APCA-API-KEY-ID", env.ALPACA_KEY},
         {"APCA-API-SECRET-KEY", env.ALPACA_SECRET_KEY}
     }; 
 
-    auto res = client.Get(route, payload); 
+    auto res = client.Get(route, headers); 
     account.status = Status::INACTIVE; 
 
     // Error respond 

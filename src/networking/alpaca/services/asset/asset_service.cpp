@@ -6,12 +6,12 @@ Asset AssetService::get_asset(const std::string &symbol) {
     Asset asset; 
     
     httplib::SSLClient client(env.URL); 
-    httplib::Headers payload = {
+    httplib::Headers headers = {
         {"APCA-API-KEY-ID", env.ALPACA_KEY},
         {"APCA-API-SECRET-KEY", env.ALPACA_SECRET_KEY}
     }; 
 
-    auto res = client.Get(route + symbol, payload); 
+    auto res = client.Get(route + symbol, headers); 
     asset.tradeable = false; 
     asset.status = Status::UNKNOWN; 
 
