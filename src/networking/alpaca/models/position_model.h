@@ -7,7 +7,7 @@ struct Position {
     int qty; 
     float market_value; 
     float avg_entry_price; 
-    std::string side; 
+    std::string side;
 };
 
 #endif 
