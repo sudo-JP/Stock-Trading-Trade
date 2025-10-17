@@ -1,8 +1,10 @@
 #include <boost/asio.hpp>
+#include "protocol.h"
 #ifndef _TCP_CLIENT_H
 #define _TCP_CLIENT_H
 
 using boost::asio::ip::tcp;
+
 
 class TCPClient {
     public: 
@@ -11,9 +13,9 @@ class TCPClient {
             boost::asio::connect(socket, resolver.resolve(host, port)); 
         };
 
-        bool send_data(std::string data); 
+        bool send_data(const TCPMessage msg); 
 
-        void disconnect(); 
+        bool disconnect(); 
 
     private: 
         const std::string host;

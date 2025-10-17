@@ -14,10 +14,20 @@ target_compile_options(trade PRIVATE
 
 target_include_directories(trade PRIVATE 
     ${CMAKE_CURRENT_SOURCE_DIR}
+
+    # Configs and types 
     ${CMAKE_CURRENT_SOURCE_DIR}/core 
     ${CMAKE_CURRENT_SOURCE_DIR}/core/config
+
+    # Alpaca 
     ${CMAKE_CURRENT_SOURCE_DIR}/networking/alpaca/models
     ${CMAKE_CURRENT_SOURCE_DIR}/networking/alpaca/services/account
+
+    # TCP 
+    ${CMAKE_CURRENT_SOURCE_DIR}/networking/tcp/client
+    ${CMAKE_CURRENT_SOURCE_DIR}/networking/tcp/common
+    ${CMAKE_CURRENT_SOURCE_DIR}/networking/tcp/server
+
     ${CMAKE_SOURCE_DIR}/library
 )
 
