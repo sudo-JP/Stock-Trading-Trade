@@ -1,6 +1,7 @@
 .PHONY: all clean
 
 all:
+	. ./.env
 	cmake -B build -G Ninja
 	$(MAKE) build
 

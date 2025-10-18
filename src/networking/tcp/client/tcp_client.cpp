@@ -4,7 +4,8 @@
 bool TCPClient::send_data(TCPMessage msg) {
     if (!socket.is_open()) return false; 
 
-    std::string message = serialize(msg); 
+    //std::string message = serialize(msg); 
+    std::string message = "Hello world!\n";
 
     boost::system::error_code ec;
     boost::asio::write(socket, boost::asio::buffer(message), ec);

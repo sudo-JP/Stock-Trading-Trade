@@ -8,6 +8,8 @@ typedef struct env_t {
     const std::string ALPACA_KEY; 
     const std::string ALPACA_SECRET_KEY; 
     const std::string URL;
+    const std::string TCP_HOST;
+    const std::string TCP_PORT;
 } ENV; 
 
 ENV get_env();

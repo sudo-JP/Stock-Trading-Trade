@@ -7,8 +7,10 @@ if(OPENSSL_FOUND)
     target_link_libraries(trade PRIVATE OpenSSL::SSL OpenSSL::Crypto)
 endif()
 
+find_package(Boost 1.70.0 REQUIRED COMPONENTS system)
+target_link_libraries(trade PRIVATE Boost::system)
+
 target_compile_options(trade PRIVATE 
-    -fopenmp
     -O2
 )
 
@@ -31,9 +33,19 @@ target_include_directories(trade PRIVATE
     ${CMAKE_SOURCE_DIR}/library
 )
 
+set(SERVICES "${CMAKE_CURRENT_SOURCE_DIR}/networking/alpaca/services")
+set(TCP "${CMAKE_CURRENT_SOURCE_DIR}/networking/tcp")
 
 target_sources(trade PRIVATE
-    main.cpp    
-    networking/alpaca/services/account/account_service.cpp
+    # Alpaca Services
+    ${SERVICES}/account/account_service.cpp
+    ${SERVICES}/asset/asset_service.cpp
+    ${SERVICES}/order/order_service.cpp
+    ${SERVICES}/position/position_service.cpp
+
+    # TCP 
+    ${TCP}/client/tcp_client.cpp
+
+    # Config 
     core/config/config.cpp
 )
