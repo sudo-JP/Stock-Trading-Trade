@@ -2,6 +2,8 @@ services:
   trade: 
     build: .
     container_name: stock-trading-trade
+    networks:
+      - trading-net
     ports:
       - "5000:5000"
     volumes:
