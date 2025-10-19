@@ -24,19 +24,33 @@ struct BinaryMessage {
     //char payload[];
 };
 
-enum SQLCommand {
-    INSERT, 
-    SELECT, 
-    UPDATE,
-    DELETE 
+// Explicit definition of enum so that it doesn't change the size
+// for bytes 
+
+enum SQLCommand : uint32_t {
+    INSERT = 1, 
+    SELECT = 2, 
+    UPDATE = 3,
+    DELETE = 4 
 }; 
 
-enum SQLTable {
-    ACCOUNT,
-    ORDER, 
-    POSITION, 
-    INSTRUMENT, 
+enum SQLTable : uint32_t {
+    ACCOUNT = 1,
+    ORDER = 2, 
+    POSITION = 3, 
+    INSTRUMENT = 4, 
 }; 
+
+enum BinaryStatus : uint32_t {
+    UNKNOWN = 0,
+    ACTIVE = 1,
+    INACTIVE = 2, 
+    PENDING = 3,
+    SUSPENDED = 4,
+    CLOSED = 5,
+    DELISTED = 6,
+    MAINTENANCE = 7,
+};
 
 // Times are represented in nanoseconds 
 
