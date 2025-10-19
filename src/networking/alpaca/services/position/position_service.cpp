@@ -21,11 +21,28 @@ std::vector<Position> PositionService::get_positions(bool refreshed) {
         json data = json::parse(res->body); 
         for (const auto &pos : data) {
             Position position;     
+
+            position.asset_id = pos["asset_id"];
             position.symbol = pos["symbol"];
-            position.qty = std::stoi(pos["avg_entry_price"].get<std::string>());
-            position.market_value = std::stod(pos["current_price"].get<std::string>());
+            position.exchange = pos["exchange"];
+            position.asset_class = pos["asset_class"];
+
+            position.qty = std::stoi(pos["qty"].get<std::string>());
             position.avg_entry_price = std::stod(pos["avg_entry_price"].get<std::string>());
-            position.side = pos["side"]; 
+
+            position.side = pos["side"];
+            position.market_value = std::stod(pos["market_value"].get<std::string>());
+
+            position.cost_basis = std::stod(pos["cost_basis"].get<std::string>());
+            position.unrealized_pl = std::stod(pos["unrealized_pl"].get<std::string>());
+            position.unrealized_plpc = std::stod(pos["unrealized_plpc"].get<std::string>());
+
+            position.unrealized_intraday_pl = std::stod(pos["unrealized_intraday_pl"].get<std::string>());
+            position.unrealized_intraday_plpc = std::stod(pos["unrealized_intraday_plpc"].get<std::string>());
+
+            position.current_price = std::stod(pos["current_price"].get<std::string>());
+            position.lastday_price = std::stod(pos["lastday_price"].get<std::string>());
+            position.change_today = std::stod(pos["change_today"].get<std::string>());
 
             positions.push_back(position);
         }
