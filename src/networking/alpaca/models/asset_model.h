@@ -1,5 +1,5 @@
 #include <string>
-#include "status.h"
+#include "core/status.h"
 #ifndef _ASSET_MODEL_H_
 #define _ASSET_MODEL_H_ 
 

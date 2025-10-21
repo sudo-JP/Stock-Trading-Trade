@@ -1,9 +1,7 @@
 #include "tcp_client.h"
 #include <iostream>
-
-bool TCPClient::send_data(TCPMessage msg) {
+bool TCPClient::send_data(BinaryMessage msg) { 
     if (!socket.is_open()) return false; 
-
     //std::string message = serialize(msg); 
     std::string message = "Hello world!\n";
 

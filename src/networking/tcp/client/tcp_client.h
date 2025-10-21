@@ -14,7 +14,7 @@ public:
     boost::asio::connect(socket, resolver.resolve(host, port));
   };
 
-  bool send_data(const TCPMessage msg);
+  bool send_data(const BinaryMessage msg);
 
   bool disconnect();
 

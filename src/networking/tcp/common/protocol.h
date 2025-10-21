@@ -1,21 +1,12 @@
-#include <string>
-#include <chrono>
+#include <vector>
+#include <cstdint>
 #ifndef _PROTOCOL_H_
 #define _PROTOCOL_H_
 
-struct TCPMessage {
-    std::string command;  
-    std::string data; 
-    std::chrono::system_clock::time_point time; 
-}; 
-
-std::string serialize(const TCPMessage &msg);
-TCPMessage deserialize(const std::string &data);
 
 // Binary Protocol 
 
-#pragma pack(push, 1)
-
+#pragma pack(1)
 struct BinaryMessage {
     uint32_t sql_command; 
     uint32_t table; 
@@ -27,21 +18,21 @@ struct BinaryMessage {
 // Explicit definition of enum so that it doesn't change the size
 // for bytes 
 
-enum SQLCommand : uint32_t {
+enum class SQLCommand : uint32_t {
     INSERT = 1, 
     SELECT = 2, 
     UPDATE = 3,
     DELETE = 4 
 }; 
 
-enum SQLTable : uint32_t {
+enum class SQLTable : uint32_t {
     ACCOUNT = 1,
     ORDER = 2, 
     POSITION = 3, 
     INSTRUMENT = 4, 
 }; 
 
-enum BinaryStatus : uint32_t {
+enum class BinaryStatus : uint32_t {
     UNKNOWN = 0,
     ACTIVE = 1,
     INACTIVE = 2, 
@@ -126,6 +117,8 @@ struct AccountBinaryPayload {
     int32_t status; 
     int64_t last_update;
 }; 
-#pragma pack(pop)
+#pragma pack()
 
+std::vector<uint8_t> serialize(const BinaryMessage &msg, const void *payload, size_t payload_size);
+//deserialize(const std::string &data);
 #endif 
