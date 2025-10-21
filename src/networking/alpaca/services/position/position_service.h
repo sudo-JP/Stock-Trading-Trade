@@ -1,6 +1,6 @@
-#include "position_model.h"
+#include "networking/alpaca/models/position_model.h"
 #include <vector>
-#include "config.h"
+#include "core/config/config.h"
 #ifndef _POSITION_SERVICE_H_
 #define _POSITION_SERVICE_H_
 

@@ -1,5 +1,5 @@
-#include "asset_model.h"
-#include "config.h"
+#include "networking/alpaca/models/asset_model.h"
+#include "core/config/config.h"
 #include <vector>
 #ifndef _ASSET_SERVICE_H_
 #define _ASSET_SERVICE_H_

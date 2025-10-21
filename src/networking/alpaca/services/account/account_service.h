@@ -1,6 +1,6 @@
-#include "account_model.h"
+#include "networking/alpaca/models/account_model.h"
 #include <string>
-#include "config.h"
+#include "core/config/config.h"
 #ifndef _ACCOUNT_SERVICE_H_
 #define _ACCOUNT_SERVICE_H_
 class AccountService {

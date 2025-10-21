@@ -1,5 +1,5 @@
-#include "config.h"
-#include "protocol.h"
+#include "core/config/config.h"
+#include "networking/tcp/common/protocol.h"
 #include <boost/asio.hpp>
 #ifndef _TCP_CLIENT_H
 #define _TCP_CLIENT_H
@@ -14,7 +14,7 @@ public:
     boost::asio::connect(socket, resolver.resolve(host, port));
   };
 
-  bool send_data(const TCPMessage msg);
+  bool send_data(const BinaryMessage msg);
 
   bool disconnect();
 
