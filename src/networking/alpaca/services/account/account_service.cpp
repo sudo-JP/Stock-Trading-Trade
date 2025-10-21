@@ -4,6 +4,7 @@
 Account AccountService::getAccount(bool refreshed) {
     if (!refreshed) return account; 
     account.last_update = std::chrono::system_clock::now();
+    
     httplib::SSLClient client(env.URL); 
     httplib::Headers headers = {
         {"APCA-API-KEY-ID", env.ALPACA_KEY},
