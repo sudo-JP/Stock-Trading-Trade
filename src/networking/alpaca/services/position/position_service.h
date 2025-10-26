@@ -13,13 +13,13 @@ class PositionService {
          * @param refreshed Set true refreshed to get new info  
          * @return vector of positions  
          * */
-        std::vector<Position> get_positions(bool refreshed = false);
+        std::vector<PositionBinaryPayload> get_positions(bool refreshed = false);
     
 
     private: 
         const ENV env;
         const std::string route = "/v2/positions";
-        std::vector<Position> positions; 
+        std::vector<PositionBinaryPayload> positions; 
 }; 
 
 #endif 
