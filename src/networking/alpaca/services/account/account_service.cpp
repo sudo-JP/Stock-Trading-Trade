@@ -1,9 +1,10 @@
 #include "account_service.h"
+#include <cstring>
 #include <boost/algorithm/string.hpp>
 
-Account AccountService::getAccount(bool refreshed) {
+AccountBinaryPayload AccountService::getAccount(bool refreshed) {
     if (!refreshed) return account; 
-    account.last_update = std::chrono::system_clock::now();
+    account.last_update = time_to_i64(std::chrono::system_clock::now());
     
     httplib::SSLClient client(env.URL); 
     httplib::Headers headers = {
@@ -12,7 +13,7 @@ Account AccountService::getAccount(bool refreshed) {
     }; 
 
     auto res = client.Get(route, headers); 
-    account.status = Status::INACTIVE; 
+    account.status = to_uint32(BinaryStatus::INACTIVE);
 
     // Error respond 
     if (!res || res->status != 200) {
@@ -24,13 +25,19 @@ Account AccountService::getAccount(bool refreshed) {
     try {
         json data = json::parse(res->body); 
 
-        account.account_id = data["id"]; 
-        boost::iequals(data["status"], "ACTIVE") ? account.status = Status::ACTIVE : account.status = Status::INACTIVE;
+        std::string data_id = data["id"]; 
+        safe_str_copy(account.account_id, data_id); 
+
+        account.status = boost::iequals(data["status"], "ACTIVE") 
+            ? to_uint32(BinaryStatus::ACTIVE)
+            : to_uint32(BinaryStatus::INACTIVE);
     
-        account.currency = data["currency"]; 
-        account.cash = std::stod(data["cash"].get<std::string>());
-        account.buying_power = std::stod(data["buying_power"].get<std::string>());
-        account.portfolio_value = std::stod(data["portfolio_value"].get<std::string>());
+        std::string data_curr = data["currency"]; 
+        safe_str_copy(account.currency, data_curr.c_str());
+
+        account.cash = json_to_double(data["cash"]);
+        account.buying_power = json_to_double(data["buying_power"]);
+        account.portfolio_value = json_to_double(data["portfolio_value"]);
         
     } catch (const std::exception &e) {
         std::cerr << "Failed to parse JSON for account: " << e.what() << std::endl;
@@ -41,5 +48,5 @@ Account AccountService::getAccount(bool refreshed) {
 }
 
 bool AccountService::can_trade(double required_amount) {
-   return account.status == Status::ACTIVE && account.buying_power >= required_amount; 
+   return account.status == to_uint32(BinaryStatus::ACTIVE) && account.buying_power >= required_amount; 
 }

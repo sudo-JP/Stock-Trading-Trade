@@ -35,6 +35,7 @@ add_library(alpaca_services
 # TCP 
 add_library(tcp_client
     ${TCP}/client/tcp_client.cpp
+    ${TCP}/common/protocol.cpp
 )
 
 target_compile_definitions(alpaca_services PUBLIC CPPHTTPLIB_OPENSSL_SUPPORT)

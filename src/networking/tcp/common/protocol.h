@@ -32,31 +32,20 @@ enum class SQLTable : uint32_t {
     INSTRUMENT = 4, 
 }; 
 
-enum class BinaryStatus : uint32_t {
-    UNKNOWN = 0,
-    ACTIVE = 1,
-    INACTIVE = 2, 
-    PENDING = 3,
-    SUSPENDED = 4,
-    CLOSED = 5,
-    DELISTED = 6,
-    MAINTENANCE = 7,
-};
-
 // Times are represented in nanoseconds 
 
 struct OrderBinaryPayload {
     char id[64];
     char client_order_id[64];
-    uint64_t created_at;
-    uint64_t updated_at;
-    uint64_t submitted_at;
-    uint64_t filled_at;
+    int64_t created_at;
+    int64_t updated_at;
+    int64_t submitted_at;
+    int64_t filled_at;
     
     char symbol[16];
     char side[8];
     char type[16];
-    uint64_t time_in_force;
+    int64_t time_in_force;
 
     uint32_t filled_qty;
     float filled_avg_price;
@@ -101,22 +90,6 @@ struct PositionBinaryPayload {
 };
 
 
-struct AccountBinaryPayload {
-    char account_id[64];
-    char currency[4];
-    
-    double buying_power; 
-    double cash;
-    double portfolio_value; 
-    double equity; 
-
-    // Performance
-    double unrealized_pl; 
-    double realized_pl;
-
-    int32_t status; 
-    int64_t last_update;
-}; 
 #pragma pack()
 
 std::vector<uint8_t> serialize(const BinaryMessage &msg, const void *payload, size_t payload_size);

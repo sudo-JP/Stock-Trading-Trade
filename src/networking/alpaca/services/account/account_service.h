@@ -12,7 +12,7 @@ class AccountService {
         * @return Account struct populated with current account data
         * @note Rate limited by Alpaca, avoid frequent calls
         */
-        Account getAccount(bool refreshed = false); 
+        AccountBinaryPayload getAccount(bool refreshed = false); 
 
         /**
         * @brief Checks if account is active and has sufficient buying power
@@ -45,7 +45,7 @@ class AccountService {
 
 
     private: 
-        Account account; 
+        AccountBinaryPayload account; 
         const ENV env; 
         const std::string route = "/v2/account"; 
 };
