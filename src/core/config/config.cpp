@@ -1,6 +1,7 @@
 #include "config.h"
 #include "http/httplib.h"
 #include <cstdlib>
+#include <chrono>
 
 ENV get_env() {
     const char *api_key = std::getenv("ALPACA_KEY");
@@ -16,4 +17,10 @@ ENV get_env() {
         std::string(tcp_host ? tcp_host : ""),
         std::string(tcp_port ? tcp_port : ""),
     };
+}
+
+int64_t time_to_i64(std::chrono::system_clock::time_point t) {
+    using namespace std::chrono; 
+    auto ns = time_point_cast<nanoseconds>(t).time_since_epoch();
+    return ns.count(); 
 }

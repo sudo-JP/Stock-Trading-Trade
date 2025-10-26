@@ -5,7 +5,13 @@
 
 int main() {
   ENV env = get_env();
-  //client.send_data(a);
-  //client.disconnect();
+  TCPClient client(env);
+  BinaryMessage msg; 
+  msg.sql_command = 1;
+  msg.table = 1; 
+  msg.timestamp = 10;
+  
+  client.send_data(msg);
+  client.disconnect();
   return 0;
 }

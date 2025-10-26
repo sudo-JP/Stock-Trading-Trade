@@ -4,15 +4,11 @@
 #ifndef _ACCOUNT_MODEL_H_
 #define _ACCOUNT_MODEL_H_
 
-enum AccountStatus {
-    ACTIVE,
-    INACTIVE
-}; 
-
-struct Account {
-    // Basic info 
-    std::string account_id; 
-    std::string currency; 
+#pragma pack(1)
+struct AccountBinaryPayload {
+    char account_id[64];
+    char currency[4];
+    
     double buying_power; 
     double cash;
     double portfolio_value; 
@@ -22,10 +18,11 @@ struct Account {
     double unrealized_pl; 
     double realized_pl;
 
-    // Status
-    Status status; 
-    std::chrono::system_clock::time_point last_update;
+    uint32_t status; 
+    int64_t last_update;
 }; 
+#pragma pack()
+
 
 enum TimeFrame {
     HOURLY, 

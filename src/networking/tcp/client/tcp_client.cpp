@@ -1,11 +1,28 @@
 #include "tcp_client.h"
+#include "string.h"
 #include <iostream>
+
 bool TCPClient::send_data(BinaryMessage msg) { 
     if (!socket.is_open()) return false; 
-    //std::string message = serialize(msg); 
-    std::string message = "Hello world!\n";
+
+    AccountBinaryPayload abp;  
+    strcpy(abp.account_id, "Hello"); 
+    strcpy(abp.currency, "USD");
+    abp.buying_power = 1;
+    abp.cash = 1000;
+    abp.portfolio_value = 20000; 
+    abp.equity = 2; 
+    abp.unrealized_pl = 5; 
+    abp.realized_pl = 7; 
+    abp.status = 1;
+    abp.last_update = 999;
+
+    msg.data_size = sizeof(AccountBinaryPayload);
+    std::vector<uint8_t> message = serialize(msg, &abp, sizeof(AccountBinaryPayload)); 
+    //std::string message = "Hello world!\n";
 
     boost::system::error_code ec;
+std::cout << "Attempting to send: " << message.size() << " bytes" << std::endl;
     boost::asio::write(socket, boost::asio::buffer(message), ec);
 
     if (ec) {
