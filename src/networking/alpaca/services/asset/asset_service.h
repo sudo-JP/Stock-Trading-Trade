@@ -12,13 +12,13 @@ class AssetService {
          * @param symbol The symbol of the asset 
          * @return Asset populated with the symbol
          * */
-        Asset get_asset(const std::string &symbol);
+        AssetBinaryPayload get_asset(const std::string &symbol);
 
         /*
          * @brief Get all assets 
          * @return Vector containing all assets
          * */
-        std::vector<Asset> get_assets(); 
+        std::vector<AssetBinaryPayload> get_assets(); 
 
     private: 
         const ENV env; 

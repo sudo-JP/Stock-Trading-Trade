@@ -15,7 +15,7 @@ enum class BinaryStatus : uint32_t {
 };
 #pragma pack()
 
-inline constexpr uint32_t to_uint32(BinaryStatus status) {
+inline constexpr uint32_t status_to_uint32(BinaryStatus status) {
     return static_cast<uint32_t>(status);
 }
 
