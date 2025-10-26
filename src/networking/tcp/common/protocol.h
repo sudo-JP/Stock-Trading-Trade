@@ -32,26 +32,6 @@ enum class SQLTable : uint32_t {
     INSTRUMENT = 4, 
 }; 
 
-// Times are represented in nanoseconds 
-
-struct OrderBinaryPayload {
-    char id[64];
-    char client_order_id[64];
-    int64_t created_at;
-    int64_t updated_at;
-    int64_t submitted_at;
-    int64_t filled_at;
-    
-    char symbol[16];
-    char side[8];
-    char type[16];
-    int64_t time_in_force;
-
-    uint32_t filled_qty;
-    float filled_avg_price;
-};
-
-
 #pragma pack()
 
 std::vector<uint8_t> serialize(const BinaryMessage &msg, const void *payload, size_t payload_size);
