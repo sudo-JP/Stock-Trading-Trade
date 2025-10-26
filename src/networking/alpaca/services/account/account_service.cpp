@@ -13,7 +13,7 @@ AccountBinaryPayload AccountService::getAccount(bool refreshed) {
     }; 
 
     auto res = client.Get(route, headers); 
-    account.status = to_uint32(BinaryStatus::INACTIVE);
+    account.status = status_to_uint32(BinaryStatus::INACTIVE);
 
     // Error respond 
     if (!res || res->status != 200) {
@@ -25,15 +25,13 @@ AccountBinaryPayload AccountService::getAccount(bool refreshed) {
     try {
         json data = json::parse(res->body); 
 
-        std::string data_id = data["id"]; 
-        safe_str_copy(account.account_id, data_id); 
+        safe_str_copy(account.account_id, data["id"]); 
 
         account.status = boost::iequals(data["status"], "ACTIVE") 
-            ? to_uint32(BinaryStatus::ACTIVE)
-            : to_uint32(BinaryStatus::INACTIVE);
+            ? status_to_uint32(BinaryStatus::ACTIVE)
+            : status_to_uint32(BinaryStatus::INACTIVE);
     
-        std::string data_curr = data["currency"]; 
-        safe_str_copy(account.currency, data_curr.c_str());
+        safe_str_copy(account.currency, data["currency"]);
 
         account.cash = json_to_double(data["cash"]);
         account.buying_power = json_to_double(data["buying_power"]);
@@ -48,5 +46,5 @@ AccountBinaryPayload AccountService::getAccount(bool refreshed) {
 }
 
 bool AccountService::can_trade(double required_amount) {
-   return account.status == to_uint32(BinaryStatus::ACTIVE) && account.buying_power >= required_amount; 
+   return account.status == status_to_uint32(BinaryStatus::ACTIVE) && account.buying_power >= required_amount; 
 }

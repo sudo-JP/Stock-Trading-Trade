@@ -10,9 +10,19 @@ inline constexpr size_t length_c_arr(T (&)[N]) {
     return N;
 }*/
 
+
 template <size_t N>
-inline void safe_str_copy(char (&dest)[N], const std::string &src) {
-    std::strncpy(dest, src.c_str(), N - 1);
+inline void safe_str_copy(char (&dest)[N], const nlohmann::json &j) {
+    std::string s;
+    if (j.is_string()) {
+        s = j.get<std::string>();
+    } else if (j.is_number()) {
+        s = std::to_string(j.get<double>()); // converts numeric types to string
+    } else {
+        s = ""; // fallback
+    }
+
+    std::strncpy(dest, s.c_str(), N - 1);
     dest[N - 1] = '\0';
 }
 

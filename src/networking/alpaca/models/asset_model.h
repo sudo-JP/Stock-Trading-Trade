@@ -3,19 +3,20 @@
 #ifndef _ASSET_MODEL_H_
 #define _ASSET_MODEL_H_ 
 
-struct Asset {
-    std::string id;
-    std::string asset_class;
-    std::string exchange;
-    std::string symbol; 
-    std::string name; 
-    Status status; 
-    bool tradeable;
-    bool marginable;
-    bool shortable;
-    bool easy_to_borrow; 
-    bool fractionable;
+#pragma pack(1)
+struct AssetBinaryPayload {
+    char id[64];
+    char asset_class[16];
+    char exchange[16];
+    char symbol[16];
+    char name[32];
+    uint32_t status;
+    char tradeable;
+    char marginable; 
+    char shortable;
+    char easy_to_borrow;
+    char fractionable;
 };
-
+#pragma pack()
 
 #endif
