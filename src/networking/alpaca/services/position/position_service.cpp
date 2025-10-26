@@ -1,6 +1,6 @@
 #include "position_service.h"
 
-std::vector<Position> PositionService::get_positions(bool refreshed) {
+std::vector<PositionBinaryPayload> PositionService::get_positions(bool refreshed) {
     if (!refreshed) return positions;
 
 
@@ -20,29 +20,29 @@ std::vector<Position> PositionService::get_positions(bool refreshed) {
     try {
         json data = json::parse(res->body); 
         for (const auto &pos : data) {
-            Position position;     
+            PositionBinaryPayload position;     
 
-            position.asset_id = pos["asset_id"];
-            position.symbol = pos["symbol"];
-            position.exchange = pos["exchange"];
-            position.asset_class = pos["asset_class"];
+            safe_str_copy(position.asset_id, pos["asset_id"]);
+            safe_str_copy(position.symbol, pos["symbol"]);
+            safe_str_copy(position.exchange, pos["exchange"]);
+            safe_str_copy(position.asset_class, pos["asset_class"]);
 
             position.qty = std::stoi(pos["qty"].get<std::string>());
-            position.avg_entry_price = std::stod(pos["avg_entry_price"].get<std::string>());
+            position.avg_entry_price = json_to_double(pos["avg_entry_price"]);
 
-            position.side = pos["side"];
-            position.market_value = std::stod(pos["market_value"].get<std::string>());
+            safe_str_copy(position.side, pos["side"]);
+            position.market_value = json_to_double(pos["market_value"]);
 
-            position.cost_basis = std::stod(pos["cost_basis"].get<std::string>());
-            position.unrealized_pl = std::stod(pos["unrealized_pl"].get<std::string>());
-            position.unrealized_plpc = std::stod(pos["unrealized_plpc"].get<std::string>());
+            position.cost_basis = json_to_double(pos["cost_basis"]);
+            position.unrealized_pl = json_to_double(pos["unrealized_pl"]);
+            position.unrealized_plpc = json_to_double(pos["unrealized_plpc"]);
 
-            position.unrealized_intraday_pl = std::stod(pos["unrealized_intraday_pl"].get<std::string>());
-            position.unrealized_intraday_plpc = std::stod(pos["unrealized_intraday_plpc"].get<std::string>());
+            position.unrealized_intraday_pl = json_to_double(pos["unrealized_intraday_pl"]);
+            position.unrealized_intraday_plpc = json_to_double(pos["unrealized_intraday_plpc"]);
 
-            position.current_price = std::stod(pos["current_price"].get<std::string>());
-            position.lastday_price = std::stod(pos["lastday_price"].get<std::string>());
-            position.change_today = std::stod(pos["change_today"].get<std::string>());
+            position.current_price = json_to_double(pos["current_price"]);
+            position.lastday_price = json_to_double(pos["lastday_price"]);
+            position.change_today = json_to_double(pos["change_today"]);
 
             positions.push_back(position);
         }

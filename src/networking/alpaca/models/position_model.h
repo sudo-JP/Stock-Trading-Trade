@@ -1,20 +1,22 @@
-#include <string>
+#include <cstdint>
 #ifndef _POSITION_MODEL_H_
 #define _POSITION_MODEL_H_
 
-struct Position {
-    std::string asset_id;
-    std::string symbol; 
-    std::string exchange;
-    std::string asset_class;
+#pragma pack(1)
+struct PositionBinaryPayload {
+    char asset_id[64];
+    char symbol[16];
+    char exchange[16];
+    char asset_class[16];
 
-    int qty; 
-    double avg_entry_price; 
-
-    std::string side; 
+    uint32_t qty; 
+    double avg_entry_price;
+    
+    char side[8];
     double market_value; 
-    double cost_basis;
+    double cost_basis; 
 
+    
     double unrealized_pl;
     double unrealized_plpc;
     double unrealized_intraday_pl;
@@ -24,5 +26,6 @@ struct Position {
     double lastday_price;
     double change_today;
 };
+#pragma pack()
 
 #endif 
