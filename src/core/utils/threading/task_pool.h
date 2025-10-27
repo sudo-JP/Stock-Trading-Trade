@@ -1,5 +1,6 @@
 #include <condition_variable>
 #include <functional>
+#include <optional>
 #include <string>
 #include <mutex>
 #include <vector> 
@@ -22,16 +23,24 @@
     *
     * We double when free_space == 0
     * */
-struct TaskPool {
-    std::vector<std::function<void()>>work; 
-    std::vector<std::string> symbols; 
+class TaskPool {
+    public: 
+        TaskPool();
 
-    int read_idx = 0; // front idx
-    int write_idx = 0; // last idx
-    int capacity = 0; 
+        void add_work(std::vector<std::function<void()>>works, std::vector<std::string> symbols);
+        
+        std::optional<std::pair<std::function<void()>, std::string>> get_work();
+    private:
+        std::vector<std::function<void()>>works; 
+        std::vector<std::string> symbols; 
 
-    std::mutex lock;
-    std::condition_variable cv; 
+        int read_idx = 0; // front idx
+        int write_idx = 0; // last idx
+        int capacity = 0; 
+
+        std::mutex lock;
+        std::condition_variable cv; 
 };
+
 
 #endif 
