@@ -19,30 +19,32 @@ std::vector<PositionBinaryPayload> PositionService::get_positions(bool refreshed
 
     try {
         json data = json::parse(res->body); 
+        if (!data.is_array()) return positions;
         for (const auto &pos : data) {
             PositionBinaryPayload position;     
 
-            safe_str_copy(position.asset_id, pos["asset_id"]);
-            safe_str_copy(position.symbol, pos["symbol"]);
-            safe_str_copy(position.exchange, pos["exchange"]);
-            safe_str_copy(position.asset_class, pos["asset_class"]);
+            safe_str_copy(position.asset_id, get_or_default(pos, "asset_id", ""));
+            safe_str_copy(position.symbol, get_or_default(pos, "symbol", ""));
+            safe_str_copy(position.exchange, get_or_default(pos, "exchange", ""));
+            safe_str_copy(position.asset_class, get_or_default(pos, "asset_class", ""));
 
-            position.qty = std::stoi(pos["qty"].get<std::string>());
-            position.avg_entry_price = json_to_double(pos["avg_entry_price"]);
+            std::string qty = get_or_default(pos, qty, "0"); 
+            position.qty = std::stoi(qty);
+            position.avg_entry_price = json_to_double(pos, "avg_entry_price");
 
-            safe_str_copy(position.side, pos["side"]);
-            position.market_value = json_to_double(pos["market_value"]);
+            safe_str_copy(position.side, get_or_default(pos, "side", ""));
+            position.market_value = json_to_double(pos, "market_value");
 
-            position.cost_basis = json_to_double(pos["cost_basis"]);
-            position.unrealized_pl = json_to_double(pos["unrealized_pl"]);
-            position.unrealized_plpc = json_to_double(pos["unrealized_plpc"]);
+            position.cost_basis = json_to_double(pos, "cost_basis");
+            position.unrealized_pl = json_to_double(pos, "unrealized_pl");
+            position.unrealized_plpc = json_to_double(pos, "unrealized_plpc");
 
-            position.unrealized_intraday_pl = json_to_double(pos["unrealized_intraday_pl"]);
-            position.unrealized_intraday_plpc = json_to_double(pos["unrealized_intraday_plpc"]);
+            position.unrealized_intraday_pl = json_to_double(pos, "unrealized_intraday_pl");
+            position.unrealized_intraday_plpc = json_to_double(pos, "unrealized_intraday_plpc");
 
-            position.current_price = json_to_double(pos["current_price"]);
-            position.lastday_price = json_to_double(pos["lastday_price"]);
-            position.change_today = json_to_double(pos["change_today"]);
+            position.current_price = json_to_double(pos, "current_price");
+            position.lastday_price = json_to_double(pos, "lastday_price");
+            position.change_today = json_to_double(pos, "change_today");
 
             positions.push_back(position);
         }

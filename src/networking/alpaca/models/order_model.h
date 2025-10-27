@@ -1,6 +1,5 @@
 #include <string>
 #include "core/status.h"
-#include <chrono>
 #ifndef _ORDER_MODEL_H_
 #define _ORDER_MODEL_H_
 
@@ -12,25 +11,27 @@ struct OrderPayload {
     std::string time_in_force; 
 }; 
 
-struct Order {
-    std::string id; 
-    std::string client_order_id; 
-    std::chrono::system_clock::time_point created_at; 
-    std::chrono::system_clock::time_point updated_at; 
-    std::chrono::system_clock::time_point submitted_at; 
-    std::chrono::system_clock::time_point filled_at; 
-    Status status;    
+// Times are represented in nanoseconds 
+#pragma pack(1)
+struct OrderBinaryPayload {
+    char id[64];
+    char client_order_id[64];
+    int64_t created_at;
+    int64_t updated_at;
+    int64_t submitted_at;
+    int64_t filled_at;
+    
+    char symbol[16];
+    char side[8];
+    char type[16];
 
-    // Should match with payload
-    std::string symbol;
-    std::string side; 
-    std::string type; 
-    int qty; 
-    std::string time_in_force;
+    uint32_t qty;
+    uint32_t filled_qty;
+    float filled_avg_price;
 
-    int filled_qty; 
-    float filled_avg_price; 
-}; 
+    char time_in_force[8];
+};
+#pragma pack()
 
 
 #endif 

@@ -11,6 +11,17 @@ inline constexpr size_t length_c_arr(T (&)[N]) {
 }*/
 
 
+template<typename T>
+inline T get_or_default(const nlohmann::json& data, const std::string& key, T default_value) {
+    if (!data.contains(key) || data[key].is_null()) 
+        return default_value; 
+    try {
+        return data[key].get<T>();
+    } catch (...) {
+        return default_value; 
+    }
+}
+
 template <size_t N>
 inline void safe_str_copy(char (&dest)[N], const nlohmann::json &j) {
     std::string s;
@@ -26,10 +37,11 @@ inline void safe_str_copy(char (&dest)[N], const nlohmann::json &j) {
     dest[N - 1] = '\0';
 }
 
-inline double json_to_double(const nlohmann::json &j, double fallback = 0.0) {
+inline double json_to_double(const nlohmann::json &j, const std::string &key, double fallback = 0.0) {
     try {
-        if (j.is_number()) return j.get<double>();
-        if (j.is_string()) return std::stod(j.get<std::string>());
+        if (j[key].is_null()) return fallback;
+        if (j[key].is_number()) return j[key].get<double>();
+        if (j[key].is_string()) return std::stod(j[key].get<std::string>());
     } catch (...) {
     }
     return fallback;

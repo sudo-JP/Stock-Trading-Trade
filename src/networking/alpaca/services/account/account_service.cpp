@@ -25,17 +25,17 @@ AccountBinaryPayload AccountService::getAccount(bool refreshed) {
     try {
         json data = json::parse(res->body); 
 
-        safe_str_copy(account.account_id, data["id"]); 
+        safe_str_copy(account.account_id, get_or_default(data, "id", "id")); 
 
-        account.status = boost::iequals(data["status"], "ACTIVE") 
+        account.status = boost::iequals(get_or_default(data, "status", "ACTIVE"), "ACTIVE") 
             ? status_to_uint32(BinaryStatus::ACTIVE)
             : status_to_uint32(BinaryStatus::INACTIVE);
     
-        safe_str_copy(account.currency, data["currency"]);
+        safe_str_copy(account.currency, get_or_default(data, "currency", "USD"));
 
-        account.cash = json_to_double(data["cash"]);
-        account.buying_power = json_to_double(data["buying_power"]);
-        account.portfolio_value = json_to_double(data["portfolio_value"]);
+        account.cash = json_to_double(data, "cash");
+        account.buying_power = json_to_double(data, "buying_power");
+        account.portfolio_value = json_to_double(data, "portfolio_value");
         
     } catch (const std::exception &e) {
         std::cerr << "Failed to parse JSON for account: " << e.what() << std::endl;
