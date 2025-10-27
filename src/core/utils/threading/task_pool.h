@@ -4,6 +4,7 @@
 #include <string>
 #include <mutex>
 #include <deque>
+#include <vector>
 #define CHUNK 10 
 #ifndef _TASK_POOL_H_
 #define _TASK_POOL_H_
@@ -16,9 +17,9 @@ class TaskPool {
     public: 
         TaskPool();
 
-        void add_work(std::vector<std::function<void()>>works, std::vector<std::string> symbols);
+        void add_work(std::vector<std::function<void()>>funcs, std::vector<std::string> symbs);
         
-        std::optional<std::pair<std::function<void()>, std::string>> get_work();
+        std::vector<std::pair<std::function<void()>, std::string>> get_work();
     private:
         std::deque<std::function<void()>>works; 
         std::deque<std::string> symbols; 
