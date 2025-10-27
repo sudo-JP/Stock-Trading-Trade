@@ -24,11 +24,12 @@ struct OrderBinaryPayload {
     char symbol[16];
     char side[8];
     char type[16];
-    int64_t time_in_force;
 
     uint32_t qty;
     uint32_t filled_qty;
     float filled_avg_price;
+
+    char time_in_force[8];
 };
 #pragma pack()
 

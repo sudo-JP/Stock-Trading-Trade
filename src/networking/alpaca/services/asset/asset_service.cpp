@@ -21,19 +21,19 @@ AssetBinaryPayload AssetService::get_asset(const std::string &symbol) {
 
     try {
         json data = json::parse(res->body); 
-        safe_str_copy(asset.id, data["id"]);
-        safe_str_copy(asset.asset_class, data["class"]); 
-        safe_str_copy(asset.exchange, data["exchange"]);
-        safe_str_copy(asset.symbol, data["symbol"]);
-        safe_str_copy(asset.name, data["name"]);
-        asset.status = boost::iequals(data["status"], "active") 
+        safe_str_copy(asset.id, get_or_default(data, "id", ""));
+        safe_str_copy(asset.asset_class, get_or_default(data, "class", "")); 
+        safe_str_copy(asset.exchange, get_or_default(data, "exchange", ""));
+        safe_str_copy(asset.symbol, get_or_default(data, "symbol", ""));
+        safe_str_copy(asset.name, get_or_default(data, "name", ""));
+        asset.status = boost::iequals(get_or_default(data, "status", "active"), "active") 
             ? status_to_uint32(BinaryStatus::ACTIVE)
             : status_to_uint32(BinaryStatus::INACTIVE);
-        asset.tradeable = data["tradable"] ? 1 : 0;
-        asset.marginable = data["marginable"] ? 1 : 0;
-        asset.shortable = data["shortable"] ? 1 : 0; 
-        asset.easy_to_borrow = data["easy_to_borrow"] ? 1 : 0;
-        asset.fractionable = data["fractionable"] ? 1 : 0;
+        asset.tradeable = get_or_default(data, "tradable", false) ? 1 : 0;
+        asset.marginable = get_or_default(data, "marginable", false) ? 1 : 0;
+        asset.shortable = get_or_default(data, "shortable", false) ? 1 : 0; 
+        asset.easy_to_borrow = get_or_default(data, "easy_to_borrow", false) ? 1 : 0;
+        asset.fractionable = get_or_default(data, "fractionable", false) ? 1 : 0;
         
     } catch (const std::exception &e) {
         std::cerr << "Failed to parse JSON for asset: " << e.what() << std::endl;
