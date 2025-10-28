@@ -1,7 +1,5 @@
 #include <condition_variable>
 #include <functional>
-#include <optional>
-#include <string>
 #include <mutex>
 #include <deque>
 #include <vector>
@@ -17,12 +15,11 @@ class TaskPool {
     public: 
         TaskPool();
 
-        void add_work(std::vector<std::function<void()>>funcs, std::vector<std::string> symbs);
+        void add_work(std::vector<std::function<void()>>funcs);
         
-        std::vector<std::pair<std::function<void()>, std::string>> get_work();
+        std::vector<std::function<void()>> get_work();
     private:
         std::deque<std::function<void()>>works; 
-        std::deque<std::string> symbols; 
 
         std::mutex mtx;
         std::condition_variable cv; 
