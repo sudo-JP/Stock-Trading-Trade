@@ -74,10 +74,10 @@ struct OrderBinaryPayload {
     char id[64];
     char client_order_id[64];
 
-    int64_t created_at;       -> This represents time in Nanoseconds
-    int64_t updated_at;       -> This represents time in Nanoseconds
-    int64_t submitted_at;     -> This represents time in Nanoseconds
-    int64_t filled_at;        -> This represents time in Nanoseconds
+    int64_t created_at;       // This represents time in Nanoseconds
+    int64_t updated_at;       // This represents time in Nanoseconds
+    int64_t submitted_at;     // This represents time in Nanoseconds
+    int64_t filled_at;        // This represents time in Nanoseconds
     
     char symbol[16];
     char side[8];

@@ -14,7 +14,7 @@ public:
     boost::asio::connect(socket, resolver.resolve(host, port));
   };
 
-  bool send_data(const BinaryMessage msg);
+  bool send_data(const BinaryMessage msg, void *payload, size_t payload_size);
 
   bool disconnect();
 
