@@ -14,6 +14,7 @@ You can find:
 - Threading system design (`thread_design.md`)  
 - Service layer design (`services_design.md`)  
 - TCP protocol and payloads (`tcp_design.md`)  
+- Checklist of what I've done so far (`checklist.md`)
 
 For implementation details and usage, please refer to the respective files in `/docs`.
 
