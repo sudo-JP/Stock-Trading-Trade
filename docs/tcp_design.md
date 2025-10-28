@@ -15,7 +15,9 @@ struct Handshake {
     uint32_t thread_count;
     uint32_t port_range; 
 
-};```
+};
+```
+
 
 
 ### 2. Graceful Shutdown Protocol
@@ -47,9 +49,11 @@ struct AccountBinaryPayload {
     double realized_pl;
 
     uint32_t status;         
-    int64_t last_update;      // This represents time in Nanosecond
+    int64_t last_update;      // This represents time in Nanoseconds
 };
 ```
+
+
 ```cpp
 AssetBinaryPayload {
     char id[64];
@@ -65,15 +69,15 @@ AssetBinaryPayload {
     char fractionable;
 };
 ```
-```cpp 
+```cpp
 struct OrderBinaryPayload {
     char id[64];
     char client_order_id[64];
 
-    int64_t created_at;       -> This represents time in Nanosecond
-    int64_t updated_at;       -> This represents time in Nanosecond
-    int64_t submitted_at;     -> This represents time in Nanosecond 
-    int64_t filled_at;        -> This represents time in Nanosecond
+    int64_t created_at;       -> This represents time in Nanoseconds
+    int64_t updated_at;       -> This represents time in Nanoseconds
+    int64_t submitted_at;     -> This represents time in Nanoseconds
+    int64_t filled_at;        -> This represents time in Nanoseconds
     
     char symbol[16];
     char side[8];
@@ -84,7 +88,9 @@ struct OrderBinaryPayload {
     float filled_avg_price;
 
     char time_in_force[8];
-};```
+};
+```
+
 ```cpp
 struct PositionBinaryPayload {
     char asset_id[64];
@@ -108,8 +114,8 @@ struct PositionBinaryPayload {
     double current_price;
     double lastday_price;
     double change_today;
-};```
-
+};
+```
 
 ### 4. Connection Lifecycle
 - **Server setup:** TCP server binds to the agreed port range and listens for incoming connections from Rust backend.  
