@@ -11,9 +11,9 @@ Current architecure. Project is still in progress, so lots of empty files for no
 All detailed architecture and system design documentation is available in the `/docs` folder.  
 You can find:
 
-- Threading system design (`threading.md`)  
-- Service layer design (`services.md`)  
-- TCP protocol and payloads (`tcp.md`)  
+- Threading system design (`thread_design.md`)  
+- Service layer design (`services_design.md`)  
+- TCP protocol and payloads (`tcp_design.md`)  
 
 For implementation details and usage, please refer to the respective files in `/docs`.
 
