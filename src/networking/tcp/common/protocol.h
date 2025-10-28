@@ -7,16 +7,14 @@
 // Binary Protocol 
 
 #pragma pack(1)
-struct BinaryMessage {
-    uint32_t sql_command; 
-    uint32_t table; 
-    uint64_t timestamp; 
-    uint32_t data_size; 
-    //char payload[];
-};
 
 // Explicit definition of enum so that it doesn't change the size
 // for bytes 
+enum class MessageType : uint32_t {
+    HANDSHAKE = 1,
+    SHUTDOWN = 2,
+    DB_OP = 3
+};
 
 enum class SQLCommand : uint32_t {
     INSERT = 1, 
@@ -32,6 +30,22 @@ enum class SQLTable : uint32_t {
     INSTRUMENT = 4, 
 }; 
 
+struct BinaryMessage {
+    MessageType type; 
+    SQLTable table; 
+    SQLCommand sql_command; 
+    uint32_t data_size; 
+};
+
+struct Handshake {
+    uint32_t thread_count;  
+    uint32_t port_range; 
+};
+
+struct Shutdown {
+    uint32_t shutdown_flag; 
+    uint32_t exit_code; 
+}; 
 #pragma pack()
 
 std::vector<uint8_t> serialize(const BinaryMessage &msg, const void *payload, size_t payload_size);
