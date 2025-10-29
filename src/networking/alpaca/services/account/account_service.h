@@ -1,4 +1,5 @@
 #include "networking/alpaca/models/account_model.h"
+#include <future>
 #include <string>
 #include "core/config/config.h"
 #ifndef _ACCOUNT_SERVICE_H_
@@ -12,7 +13,8 @@ class AccountService {
         * @return Account struct populated with current account data
         * @note Rate limited by Alpaca, avoid frequent calls
         */
-        AccountBinaryPayload getAccount(bool refreshed = false); 
+
+        std::future<AccountBinaryPayload> getAccount(bool refreshed); 
 
         /**
         * @brief Checks if account is active and has sufficient buying power
@@ -45,6 +47,7 @@ class AccountService {
 
 
     private: 
+        AccountBinaryPayload getAccountSync(bool refreshed = false); 
         AccountBinaryPayload account; 
         const ENV env; 
         const std::string route = "/v2/account"; 

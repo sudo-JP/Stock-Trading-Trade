@@ -1,14 +1,11 @@
 #include "account_service.h"
-#include <cstring>
 #include <boost/algorithm/string.hpp>
 
-AccountBinaryPayload AccountService::getAccount(bool refreshed) {
+AccountBinaryPayload AccountService::getAccountSync(bool refreshed) {
     if (!refreshed) return account; 
     account.last_update = time_to_i64(std::chrono::system_clock::now());
     
-    httplib::SSLClient client(env.URL); 
-    httplib::Headers headers = {
-        {"APCA-API-KEY-ID", env.ALPACA_KEY},
+    httplib::SSLClient client(env.URL); httplib::Headers headers = { {"APCA-API-KEY-ID", env.ALPACA_KEY},
         {"APCA-API-SECRET-KEY", env.ALPACA_SECRET_KEY}
     }; 
 
@@ -43,6 +40,12 @@ AccountBinaryPayload AccountService::getAccount(bool refreshed) {
     }
 
     return account; 
+}
+
+std::future<AccountBinaryPayload> AccountService::getAccount(bool refreshed) {
+    return std::async(std::launch::async, [this, refreshed]() {
+        return this->getAccountSync(refreshed);
+    });
 }
 
 bool AccountService::can_trade(double required_amount) {
