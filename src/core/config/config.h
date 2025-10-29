@@ -12,7 +12,7 @@ inline constexpr size_t length_c_arr(T (&)[N]) {
 
 
 template<typename T>
-inline T get_or_default(const nlohmann::json& data, const std::string& key, T default_value) {
+inline T getOrDefault(const nlohmann::json& data, const std::string& key, T default_value) {
     if (!data.contains(key) || data[key].is_null()) 
         return default_value; 
     try {
@@ -23,7 +23,7 @@ inline T get_or_default(const nlohmann::json& data, const std::string& key, T de
 }
 
 template <size_t N>
-inline void safe_str_copy(char (&dest)[N], const nlohmann::json &j) {
+inline void safeStrcpy(char (&dest)[N], const nlohmann::json &j) {
     std::string s;
     if (j.is_string()) {
         s = j.get<std::string>();
@@ -37,7 +37,7 @@ inline void safe_str_copy(char (&dest)[N], const nlohmann::json &j) {
     dest[N - 1] = '\0';
 }
 
-inline double json_to_double(const nlohmann::json &j, const std::string &key, double fallback = 0.0) {
+inline double jsonToDouble(const nlohmann::json &j, const std::string &key, double fallback = 0.0) {
     try {
         if (j[key].is_null()) return fallback;
         if (j[key].is_number()) return j[key].get<double>();
@@ -47,7 +47,7 @@ inline double json_to_double(const nlohmann::json &j, const std::string &key, do
     return fallback;
 }
 
-int64_t time_to_i64(std::chrono::system_clock::time_point t);
+int64_t timeToi64(std::chrono::system_clock::time_point t);
 
 typedef struct env_t {
     const std::string ALPACA_KEY; 
@@ -57,7 +57,7 @@ typedef struct env_t {
     const std::string TCP_PORT;
 } ENV; 
 
-ENV get_env();
+ENV getEnv();
 
 using json = nlohmann::json;
 

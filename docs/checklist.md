@@ -11,10 +11,10 @@
 - [x] Order Service class with POST 
 - [x] Testing if HTTP Request work 
 - [x] Error checking 
-- [ ] Make AccountService methods async 
-- [ ] Make OrderService methods async 
-- [ ] Make PositionService methods async 
-- [ ] Make AssetService methods async 
+- [x] Make AccountService methods async 
+- [x] Make OrderService methods async 
+- [x] Make PositionService methods async 
+- [x] Make AssetService methods async 
 - [ ] Documentation 
 
 ## Threading 

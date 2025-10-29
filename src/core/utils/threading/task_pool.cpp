@@ -1,7 +1,7 @@
 #include "task_pool.h"
 #include <mutex>
 
-void TaskPool::add_work(std::vector<std::function<void()>> funcs) {
+void TaskPool::addWork(std::vector<std::function<void()>> funcs) {
 
     std::unique_lock<std::mutex> lock(mtx); 
     for (size_t i = 0; i < funcs.size(); i++) {
@@ -12,7 +12,7 @@ void TaskPool::add_work(std::vector<std::function<void()>> funcs) {
 }
 
 
-std::vector<std::function<void()>> TaskPool::get_work() {
+std::vector<std::function<void()>> TaskPool::getWork() {
     std::vector<std::function<void()>> jobs; 
 
     std::unique_lock<std::mutex> lock(mtx); 

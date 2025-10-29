@@ -1,8 +1,9 @@
 #include "asset_service.h"
 #include <boost/algorithm/string.hpp>
+#include <future>
 
 
-AssetBinaryPayload AssetService::get_asset(const std::string &symbol) {
+AssetBinaryPayload AssetService::getAssetSync(const std::string &symbol) {
     AssetBinaryPayload asset; 
     
     httplib::SSLClient client(env.URL); 
@@ -12,7 +13,7 @@ AssetBinaryPayload AssetService::get_asset(const std::string &symbol) {
     }; 
     auto res = client.Get(route + symbol, headers); 
     asset.tradeable = false; 
-    asset.status = status_to_uint32(BinaryStatus::UNKNOWN);
+    asset.status = statusTouint32(BinaryStatus::UNKNOWN);
 
     if (!res || res->status != 200) {
         std::cerr << "HTTP Error: " << (res ? res->status : -1) << std::endl;
@@ -21,19 +22,19 @@ AssetBinaryPayload AssetService::get_asset(const std::string &symbol) {
 
     try {
         json data = json::parse(res->body); 
-        safe_str_copy(asset.id, get_or_default(data, "id", ""));
-        safe_str_copy(asset.asset_class, get_or_default(data, "class", "")); 
-        safe_str_copy(asset.exchange, get_or_default(data, "exchange", ""));
-        safe_str_copy(asset.symbol, get_or_default(data, "symbol", ""));
-        safe_str_copy(asset.name, get_or_default(data, "name", ""));
-        asset.status = boost::iequals(get_or_default(data, "status", "active"), "active") 
-            ? status_to_uint32(BinaryStatus::ACTIVE)
-            : status_to_uint32(BinaryStatus::INACTIVE);
-        asset.tradeable = get_or_default(data, "tradable", false) ? 1 : 0;
-        asset.marginable = get_or_default(data, "marginable", false) ? 1 : 0;
-        asset.shortable = get_or_default(data, "shortable", false) ? 1 : 0; 
-        asset.easy_to_borrow = get_or_default(data, "easy_to_borrow", false) ? 1 : 0;
-        asset.fractionable = get_or_default(data, "fractionable", false) ? 1 : 0;
+        safeStrcpy(asset.id, getOrDefault(data, "id", ""));
+        safeStrcpy(asset.asset_class, getOrDefault(data, "class", "")); 
+        safeStrcpy(asset.exchange, getOrDefault(data, "exchange", ""));
+        safeStrcpy(asset.symbol, getOrDefault(data, "symbol", ""));
+        safeStrcpy(asset.name, getOrDefault(data, "name", ""));
+        asset.status = boost::iequals(getOrDefault(data, "status", "active"), "active") 
+            ? statusTouint32(BinaryStatus::ACTIVE)
+            : statusTouint32(BinaryStatus::INACTIVE);
+        asset.tradeable = getOrDefault(data, "tradable", false) ? 1 : 0;
+        asset.marginable = getOrDefault(data, "marginable", false) ? 1 : 0;
+        asset.shortable = getOrDefault(data, "shortable", false) ? 1 : 0; 
+        asset.easy_to_borrow = getOrDefault(data, "easy_to_borrow", false) ? 1 : 0;
+        asset.fractionable = getOrDefault(data, "fractionable", false) ? 1 : 0;
         
     } catch (const std::exception &e) {
         std::cerr << "Failed to parse JSON for asset: " << e.what() << std::endl;
@@ -43,3 +44,9 @@ AssetBinaryPayload AssetService::get_asset(const std::string &symbol) {
 
     return asset; 
 } 
+
+std::future<AssetBinaryPayload> AssetService::getAsset(const std::string &symbol) {
+    return std::async(std::launch::async, [this, symbol]() {
+        return this->getAssetSync(symbol); 
+    }); 
+}

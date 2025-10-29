@@ -15,9 +15,9 @@ class TaskPool {
     public: 
         TaskPool();
 
-        void add_work(std::vector<std::function<void()>>funcs);
+        void addWork(std::vector<std::function<void()>>funcs);
         
-        std::vector<std::function<void()>> get_work();
+        std::vector<std::function<void()>> getWork();
     private:
         std::deque<std::function<void()>>works; 
 

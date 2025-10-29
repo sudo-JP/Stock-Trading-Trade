@@ -19,7 +19,7 @@ ENV get_env() {
     };
 }
 
-int64_t time_to_i64(std::chrono::system_clock::time_point t) {
+int64_t timeToi64(std::chrono::system_clock::time_point t) {
     using namespace std::chrono; 
     auto ns = time_point_cast<nanoseconds>(t).time_since_epoch();
     return ns.count(); 

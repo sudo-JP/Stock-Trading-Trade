@@ -14,14 +14,14 @@ class OrderService {
          * @param order_payload The payload to be sent 
          * @return Order populated with info
          * */
-        OrderBinaryPayload process_order(OrderPayload order_payload);
+        OrderBinaryPayload processOrder(OrderPayload order_payload);
 
         /*
          * @brief process multiple orders with populated data 
          * @param order_payloads The vector of payload 
          * @return Orders vector of promised order from async 
          * */
-        std::vector<std::future<OrderBinaryPayload>> mass_process(std::vector<OrderPayload> order_payloads);
+        std::vector<std::future<OrderBinaryPayload>> massProcess(std::vector<OrderPayload> order_payloads);
 
     private:
         const ENV env;
