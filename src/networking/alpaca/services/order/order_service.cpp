@@ -3,7 +3,7 @@
 #include <chrono> 
 #include <iomanip>
 
-int64_t parse_time(const nlohmann::json &data, const std::string &key) {
+int64_t parseTime(const nlohmann::json &data, const std::string &key) {
     if (data[key].is_null()) {
         return 0; 
     } 
@@ -24,7 +24,7 @@ int64_t parse_time(const nlohmann::json &data, const std::string &key) {
     return ns; 
 }
 
-OrderBinaryPayload OrderService::process_order(OrderPayload order_payload) {
+OrderBinaryPayload OrderService::processOrderSync(OrderPayload order_payload) {
     httplib::SSLClient client(env.URL); 
     httplib::Headers headers = {
         {"APCA-API-KEY-ID", env.ALPACA_KEY},
@@ -51,26 +51,26 @@ OrderBinaryPayload OrderService::process_order(OrderPayload order_payload) {
     try {
 
         json data = json::parse(res->body);
-        order.created_at = parse_time(data, "created_at");
-        order.filled_at = parse_time(data, "filled_at");
-        order.submitted_at = parse_time(data, "submitted_at");
-        order.updated_at = parse_time(data, "updated_at");
+        order.created_at = parseTime(data, "created_at");
+        order.filled_at = parseTime(data, "filled_at");
+        order.submitted_at = parseTime(data, "submitted_at");
+        order.updated_at = parseTime(data, "updated_at");
 
-        safe_str_copy(order.id, get_or_default(data, "id", ""));
-        safe_str_copy(order.client_order_id, get_or_default(data, "client_order_id", ""));
-        safe_str_copy(order.symbol, get_or_default(data, "symbol", ""));
-        safe_str_copy(order.side, get_or_default(data, "side", ""));
-        safe_str_copy(order.type, get_or_default(data, "type", ""));
+        safeStrcpy(order.id, getOrDefault(data, "id", ""));
+        safeStrcpy(order.client_order_id, getOrDefault(data, "client_order_id", ""));
+        safeStrcpy(order.symbol, getOrDefault(data, "symbol", ""));
+        safeStrcpy(order.side, getOrDefault(data, "side", ""));
+        safeStrcpy(order.type, getOrDefault(data, "type", ""));
 
 
-        std::string qty_str = get_or_default<std::string>(data, "qty", "0");
+        std::string qty_str = getOrDefault<std::string>(data, "qty", "0");
         order.qty = std::stoi(qty_str);
 
-        std::string filled_qty_str = get_or_default(data, "filled_qty", "0"); 
+        std::string filled_qty_str = getOrDefault(data, "filled_qty", "0"); 
 
         order.filled_qty = std::stoi(filled_qty_str);
         // filled avg price 
-        safe_str_copy(order.time_in_force, get_or_default(data, "time_in_force", "utc"));
+        safeStrcpy(order.time_in_force, getOrDefault(data, "time_in_force", "utc"));
 
     } catch (const std::exception &e){
         std::cerr << "Failed to parse JSON for order: " << e.what() << std::endl;
@@ -80,14 +80,19 @@ OrderBinaryPayload OrderService::process_order(OrderPayload order_payload) {
 }
 
 
-std::vector<std::future<OrderBinaryPayload>> OrderService::mass_process(std::vector<OrderPayload> order_payloads) {
+std::future<OrderBinaryPayload> OrderService::processOrder(OrderPayload order_payload) {
+    return std::async(std::launch::async, [this, order_payload]() {
+        return this->processOrderSync(order_payload);
+    }); 
+}
+
+
+std::vector<std::future<OrderBinaryPayload>> OrderService::massProcess(std::vector<OrderPayload> order_payloads) {
     std::vector<std::future<OrderBinaryPayload>> futures; 
     int n = order_payloads.size();
 
     for (OrderPayload &payload : order_payloads) {
-        futures.push_back(std::async(std::launch::async, [this, payload] {
-            return this->process_order(payload);
-        }));
+        futures.push_back(processOrder(payload)); 
     }
 
     return futures; 

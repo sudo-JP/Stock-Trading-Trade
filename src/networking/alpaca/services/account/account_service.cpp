@@ -2,9 +2,9 @@
 #include <cstring>
 #include <boost/algorithm/string.hpp>
 
-AccountBinaryPayload AccountService::getAccount(bool refreshed) {
+AccountBinaryPayload AccountService::getAccountSync(bool refreshed) {
     if (!refreshed) return account; 
-    account.last_update = time_to_i64(std::chrono::system_clock::now());
+    account.last_update = timeToi64(std::chrono::system_clock::now());
     
     httplib::SSLClient client(env.URL); 
     httplib::Headers headers = {
@@ -13,7 +13,7 @@ AccountBinaryPayload AccountService::getAccount(bool refreshed) {
     }; 
 
     auto res = client.Get(route, headers); 
-    account.status = status_to_uint32(BinaryStatus::INACTIVE);
+    account.status = statusTouint32(BinaryStatus::INACTIVE);
 
     // Error respond 
     if (!res || res->status != 200) {
@@ -25,17 +25,17 @@ AccountBinaryPayload AccountService::getAccount(bool refreshed) {
     try {
         json data = json::parse(res->body); 
 
-        safe_str_copy(account.account_id, get_or_default(data, "id", "id")); 
+        safeStrcpy(account.account_id, getOrDefault(data, "id", "id")); 
 
-        account.status = boost::iequals(get_or_default(data, "status", "ACTIVE"), "ACTIVE") 
-            ? status_to_uint32(BinaryStatus::ACTIVE)
-            : status_to_uint32(BinaryStatus::INACTIVE);
+        account.status = boost::iequals(getOrDefault(data, "status", "ACTIVE"), "ACTIVE") 
+            ? statusTouint32(BinaryStatus::ACTIVE)
+            : statusTouint32(BinaryStatus::INACTIVE);
     
-        safe_str_copy(account.currency, get_or_default(data, "currency", "USD"));
+        safeStrcpy(account.currency, getOrDefault(data, "currency", "USD"));
 
-        account.cash = json_to_double(data, "cash");
-        account.buying_power = json_to_double(data, "buying_power");
-        account.portfolio_value = json_to_double(data, "portfolio_value");
+        account.cash = jsonToDouble(data, "cash");
+        account.buying_power = jsonToDouble(data, "buying_power");
+        account.portfolio_value = jsonToDouble(data, "portfolio_value");
         
     } catch (const std::exception &e) {
         std::cerr << "Failed to parse JSON for account: " << e.what() << std::endl;
@@ -45,6 +45,12 @@ AccountBinaryPayload AccountService::getAccount(bool refreshed) {
     return account; 
 }
 
-bool AccountService::can_trade(double required_amount) {
-   return account.status == status_to_uint32(BinaryStatus::ACTIVE) && account.buying_power >= required_amount; 
+std::future<AccountBinaryPayload> AccountService::getAccount(bool refreshed) {
+    return std::async(std::launch::async, [this, refreshed]() {
+        return this->getAccountSync(refreshed);
+    });
+}
+
+bool AccountService::canTrade(double required_amount) {
+   return account.status == statusTouint32(BinaryStatus::ACTIVE) && account.buying_power >= required_amount; 
 }
