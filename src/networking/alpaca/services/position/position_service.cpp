@@ -1,6 +1,6 @@
 #include "position_service.h"
 
-std::vector<PositionBinaryPayload> PositionService::getPositions(bool refreshed) {
+std::vector<PositionBinaryPayload> PositionService::getPositionsSync(bool refreshed) {
     if (!refreshed) return positions;
 
 
@@ -57,4 +57,11 @@ std::vector<PositionBinaryPayload> PositionService::getPositions(bool refreshed)
     positions.clear(); 
 
     return positions; 
+}
+
+
+std::future<std::vector<PositionBinaryPayload>> PositionService::getPositions(bool refreshed) {
+    return std::async(std::launch::async, [this, refreshed]() {
+        return this->getPositionsSync(refreshed); 
+    }); 
 }

@@ -14,10 +14,11 @@ class PositionService {
          * @param refreshed Set true refreshed to get new info  
          * @return vector of positions  
          * */
-        std::vector<PositionBinaryPayload> getPositions(bool refreshed = false);
+        std::future<std::vector<PositionBinaryPayload>> getPositions(bool refreshed = false);
     
 
     private: 
+        std::vector<PositionBinaryPayload> getPositionsSync(bool refreshed = false);
         const ENV env;
         const std::string route = "/v2/positions";
         std::vector<PositionBinaryPayload> positions; 
