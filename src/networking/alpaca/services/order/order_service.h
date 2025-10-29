@@ -14,7 +14,7 @@ class OrderService {
          * @param order_payload The payload to be sent 
          * @return Order populated with info
          * */
-        OrderBinaryPayload processOrder(OrderPayload order_payload);
+        std::future<OrderBinaryPayload> processOrder(OrderPayload order_payload);
 
         /*
          * @brief process multiple orders with populated data 
@@ -24,6 +24,7 @@ class OrderService {
         std::vector<std::future<OrderBinaryPayload>> massProcess(std::vector<OrderPayload> order_payloads);
 
     private:
+        OrderBinaryPayload processOrderSync(OrderPayload order_payload);
         const ENV env;
         const std::string route = "/v2/orders"; 
 };

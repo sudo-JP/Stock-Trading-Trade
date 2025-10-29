@@ -24,7 +24,7 @@ int64_t parseTime(const nlohmann::json &data, const std::string &key) {
     return ns; 
 }
 
-OrderBinaryPayload OrderService::processOrder(OrderPayload order_payload) {
+OrderBinaryPayload OrderService::processOrderSync(OrderPayload order_payload) {
     httplib::SSLClient client(env.URL); 
     httplib::Headers headers = {
         {"APCA-API-KEY-ID", env.ALPACA_KEY},
@@ -80,14 +80,19 @@ OrderBinaryPayload OrderService::processOrder(OrderPayload order_payload) {
 }
 
 
+std::future<OrderBinaryPayload> OrderService::processOrder(OrderPayload order_payload) {
+    return std::async(std::launch::async, [this, order_payload]() {
+        return this->processOrderSync(order_payload);
+    }); 
+}
+
+
 std::vector<std::future<OrderBinaryPayload>> OrderService::massProcess(std::vector<OrderPayload> order_payloads) {
     std::vector<std::future<OrderBinaryPayload>> futures; 
     int n = order_payloads.size();
 
     for (OrderPayload &payload : order_payloads) {
-        futures.push_back(std::async(std::launch::async, [this, payload] {
-            return this->processOrder(payload);
-        }));
+        futures.push_back(processOrder(payload)); 
     }
 
     return futures; 
