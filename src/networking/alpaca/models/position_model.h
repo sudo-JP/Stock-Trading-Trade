@@ -1,4 +1,3 @@
-#include <cstdint>
 #ifndef _POSITION_MODEL_H_
 #define _POSITION_MODEL_H_
 
@@ -9,23 +8,23 @@ struct PositionBinaryPayload {
     char exchange[16];
     char asset_class[16];
 
-    uint32_t qty; 
-    double avg_entry_price;
-    
-    char side[8];
-    double market_value; 
-    double cost_basis; 
+    float qty;                 // positive = long, negative = short
+    char side[8];              // "long" or "short"
+    float avg_entry_price;
+    float market_value;
+    float cost_basis;
 
-    
-    double unrealized_pl;
-    double unrealized_plpc;
-    double unrealized_intraday_pl;
-    double unrealized_intraday_plpc;
+    // Optional / derived
+    float unrealized_pl;
+    float unrealized_plpc;
+    float unrealized_intraday_pl;
+    float unrealized_intraday_plpc;
 
-    double current_price;
-    double lastday_price;
-    double change_today;
+    float current_price;
+    float lastday_price;
+    float change_today;
+
+    bool asset_marginable;
 };
 #pragma pack()
-
 #endif 
