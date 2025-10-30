@@ -26,3 +26,9 @@ Key points:
 - Faulty or incomplete HTTP data is replaced with default values in the binary payload struct.  
 - If all data is invalid, a try-catch block logs the error to `stderr`.  
 - Ensures that one failed request does not crash the system or block worker threads.
+
+
+## Asset 
+```javascript
+{'id': '4ce9353c-66d1-46c2-898f-fce867ab0247', 'class': 'us_equity', 'exchange': 'NASDAQ', 'symbol': 'NVDA', 'name': 'NVIDIA Corporation Common Stock', 'status': 'active', 'tradable': True, 'marginable': True, 'maintenance_margin_requirement': 30, 'margin_requirement_long': '30', 'margin_requirement_short': '30', 'shortable': True, 'easy_to_borrow': True, 'fractionable': True, 'attributes': ['fractional_eh_enabled', 'has_options']}
+```
