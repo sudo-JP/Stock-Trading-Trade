@@ -26,3 +26,47 @@ Key points:
 - Faulty or incomplete HTTP data is replaced with default values in the binary payload struct.  
 - If all data is invalid, a try-catch block logs the error to `stderr`.  
 - Ensures that one failed request does not crash the system or block worker threads.
+
+
+
+## Order 
+```javascript
+{
+  'id': '7817ed16-04f0-44b6-b03c-67a5a70d3e23',
+  'client_order_id': 'a2caff27-178d-4004-852e-4cbcfa5ac56c',
+  'created_at': '2025-10-30T21:43:02.040468067Z',
+  'updated_at': '2025-10-30T21:43:02.042088036Z',
+  'submitted_at': '2025-10-30T21:43:02.040468067Z',
+  'filled_at': None,
+  'expired_at': None,
+  'canceled_at': None,
+  'failed_at': None,
+  'replaced_at': None,
+  'replaced_by': None,
+  'replaces': None,
+  'asset_id': '4ce9353c-66d1-46c2-898f-fce867ab0247',
+  'symbol': 'NVDA',
+  'asset_class': 'us_equity',
+  'notional': None,
+  'qty': '1',
+  'filled_qty': '0',
+  'filled_avg_price': None,
+  'order_class': '',
+  'order_type': 'market',
+  'type': 'market',
+  'side': 'buy',
+  'position_intent': 'buy_to_open',
+  'time_in_force': 'gtc',
+  'limit_price': None,
+  'stop_price': None,
+  'status': 'accepted',
+  'extended_hours': False,
+  'legs': None,
+  'trail_percent': None,
+  'trail_price': None,
+  'hwm': None,
+  'subtag': None,
+  'source': None,
+  'expires_at': '2026-01-29T21:00:00Z'
+}
+```
