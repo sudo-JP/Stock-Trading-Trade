@@ -31,7 +31,7 @@ Key points:
 
 ### Account 
 ```javascript
-Accountinfo: {
+{
   'id': 'e178593c-3701-4dcc-9b6e-345be925368d',
   'admin_configurations': {
     
