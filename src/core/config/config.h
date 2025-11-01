@@ -37,16 +37,16 @@ inline void safeStrcpy(char (&dest)[N], const nlohmann::json &j) {
     dest[N - 1] = '\0';
 }
 
-inline double jsonToDouble(const nlohmann::json &j, const std::string &key, double fallback = 0.0) {
+
+template <typename T>
+inline T jsonToNumber(const nlohmann::json &j, const std::string &key, T fallback = T{}) {
     try {
         if (j[key].is_null()) return fallback;
-        if (j[key].is_number()) return j[key].get<double>();
-        if (j[key].is_string()) return std::stod(j[key].get<std::string>());
-    } catch (...) {
-    }
+        if (j[key].is_number()) return j[key].get<T>();
+        if (j[key].is_string()) return static_cast<T>(std::stod(j[key].get<std::string>()));
+    } catch (...) {}
     return fallback;
 }
-
 int64_t timeToi64(std::chrono::system_clock::time_point t);
 
 typedef struct env_t {
