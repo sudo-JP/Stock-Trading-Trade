@@ -1,34 +1,6 @@
 #include "order_service.h"
 #include <future>
-#include <chrono> 
-#include <iomanip>
 
-
-
-    // Timestamps (nanoseconds)
-    int64_t created_at;
-    int64_t updated_at;
-    int64_t submitted_at;
-    int64_t filled_at;        
-    char status[16]; 
-
-    // Core order info
-    char asset_id[64]; 
-    char symbol[16];           
-    char side[8];               
-    char type[16];               
-    char time_in_force[8];        
-
-    uint32_t qty;            
-    uint32_t filled_qty;      
-    float filled_avg_price;    
-
-    char asset_class[16];       
-    char position_intent[16];    
-    float notional;               
-    float limit_price;          
-    float stop_price;            
-    char extended_hours;          
 OrderBinaryPayload OrderService::processOrderSync(OrderPayload order_payload) {
     httplib::SSLClient client(env.URL); 
     httplib::Headers headers = {
@@ -56,6 +28,7 @@ OrderBinaryPayload OrderService::processOrderSync(OrderPayload order_payload) {
     try {
 
         json data = json::parse(res->body);
+        // Identity 
         safeStrcpy(order.id, std::string(getOrDefault(data, "id", std::string(""))));
 
         // Timestamps 
@@ -64,21 +37,31 @@ OrderBinaryPayload OrderService::processOrderSync(OrderPayload order_payload) {
         order.submitted_at = parseTime(data, "submitted_at");
         order.updated_at = parseTime(data, "updated_at");
 
-        //safeStrcpy(order.client_order_id, getOrDefault(data, "client_order_id", ""));
+        // Status 
+        safeStrcpy(order.status, std::string(getOrDefault(data, "status", std::string("UNKNOWN"))));
+
+        
+        // IDs 
+        safeStrcpy(order.asset_id, std::string(getOrDefault(data, "asset_id", std::string(""))));
         safeStrcpy(order.symbol, std::string(getOrDefault(data, "symbol", std::string(""))));
         safeStrcpy(order.side, std::string(getOrDefault(data, "side", std::string(""))));
         safeStrcpy(order.type, std::string(getOrDefault(data, "type", std::string(""))));
+        safeStrcpy(order.time_in_force, std::string(getOrDefault(data, "time_in_force", std::string(""))));
 
 
-        std::string qty_str = getOrDefault(data, "qty", std::string("0"));
-        order.qty = std::stoi(qty_str);
+        // Numbering 
+        order.qty = jsonToNumber<uint32_t>(data, "qty"); 
+        order.filled_qty = jsonToNumber<uint32_t>(data, "filled_qty"); 
+        order.filled_avg_price = jsonToNumber<float>(data, "filled_avg_price"); 
+        
+        // Asset and Position 
+        safeStrcpy(order.asset_class, std::string(getOrDefault(data, "asset_class", std::string(""))));
+        safeStrcpy(order.position_intent, std::string(getOrDefault(data, "position_intent", std::string(""))));
 
-        std::string filled_qty_str = std::string(getOrDefault(data, "filled_qty", std::string("0"))); 
-
-        order.filled_qty = std::stoi(filled_qty_str);
-        // filled avg price 
-        safeStrcpy(order.time_in_force, std::string(getOrDefault(data, "time_in_force", std::string("utc"))));
-
+        order.notional = jsonToNumber<float>(data, "notional"); 
+        order.limit_price = jsonToNumber<float>(data, "limit_price"); 
+        order.stop_price = jsonToNumber<float>(data, "stop_price"); 
+        order.extended_hours = getOrDefault(data, "extended_hours") ? 1 : 0; 
     } catch (const std::exception &e){
         std::cerr << "Failed to parse JSON for order: " << e.what() << std::endl;
     }
