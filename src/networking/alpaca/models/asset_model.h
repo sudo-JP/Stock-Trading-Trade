@@ -6,16 +6,21 @@
 #pragma pack(1)
 struct AssetBinaryPayload {
     char id[64];
-    char asset_class[16];
-    char exchange[16];
     char symbol[16];
-    char name[32];
-    uint32_t status;
-    char tradeable;
-    char marginable; 
+    char name[64];
+    char asset_class[16];        
+    char exchange[16];
+    char status[8];        
+
+    char tradable;
+    char marginable;
     char shortable;
-    char easy_to_borrow;
     char fractionable;
+    char easy_to_borrow;
+
+    float maintenance_margin_requirement;
+    float margin_requirement_long;
+    float margin_requirement_short;
 };
 #pragma pack()
 

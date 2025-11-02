@@ -34,6 +34,8 @@ struct BinaryMessage {
     MessageType type; 
     SQLTable table; 
     SQLCommand sql_command; 
+    char is_arr; 
+    uint32_t arr_len; 
     uint32_t data_size; 
 };
 
@@ -48,6 +50,13 @@ struct Shutdown {
 }; 
 #pragma pack()
 
+/*
+ * caller of these functions must initialize their own BinaryMessage heaer 
+ * that means the caller must be aware if the value put in is a struct or 
+ * an array of struct 
+ * */
 std::vector<uint8_t> serialize(const BinaryMessage &msg, const void *payload, size_t payload_size);
+std::vector<uint8_t> serialize(const BinaryMessage &msg, const std::vector<void *> &payload, size_t payload_size);
+
 //deserialize(const std::string &data);
 #endif 
