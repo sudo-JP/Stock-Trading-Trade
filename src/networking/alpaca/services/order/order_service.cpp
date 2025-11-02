@@ -61,7 +61,7 @@ OrderBinaryPayload OrderService::processOrderSync(OrderPayload order_payload) {
         order.notional = jsonToNumber<float>(data, "notional"); 
         order.limit_price = jsonToNumber<float>(data, "limit_price"); 
         order.stop_price = jsonToNumber<float>(data, "stop_price"); 
-        order.extended_hours = getOrDefault(data, "extended_hours") ? 1 : 0; 
+        order.extended_hours = getOrDefault(data, "extended_hours", false) ? 1 : 0; 
     } catch (const std::exception &e){
         std::cerr << "Failed to parse JSON for order: " << e.what() << std::endl;
     }
