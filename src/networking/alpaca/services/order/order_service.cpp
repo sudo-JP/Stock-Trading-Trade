@@ -36,21 +36,21 @@ OrderBinaryPayload OrderService::processOrderSync(OrderPayload order_payload) {
         order.submitted_at = parseTime(data, "submitted_at");
         order.updated_at = parseTime(data, "updated_at");
 
-        safeStrcpy(order.id, getOrDefault(data, "id", ""));
-        safeStrcpy(order.client_order_id, getOrDefault(data, "client_order_id", ""));
-        safeStrcpy(order.symbol, getOrDefault(data, "symbol", ""));
-        safeStrcpy(order.side, getOrDefault(data, "side", ""));
-        safeStrcpy(order.type, getOrDefault(data, "type", ""));
+        safeStrcpy(order.id, std::string(getOrDefault(data, "id", std::string(""))));
+        //safeStrcpy(order.client_order_id, getOrDefault(data, "client_order_id", ""));
+        safeStrcpy(order.symbol, std::string(getOrDefault(data, "symbol", std::string(""))));
+        safeStrcpy(order.side, std::string(getOrDefault(data, "side", std::string(""))));
+        safeStrcpy(order.type, std::string(getOrDefault(data, "type", std::string(""))));
 
 
-        std::string qty_str = getOrDefault<std::string>(data, "qty", "0");
+        std::string qty_str = getOrDefault(data, "qty", std::string("0"));
         order.qty = std::stoi(qty_str);
 
-        std::string filled_qty_str = getOrDefault(data, "filled_qty", "0"); 
+        std::string filled_qty_str = std::string(getOrDefault(data, "filled_qty", std::string("0"))); 
 
         order.filled_qty = std::stoi(filled_qty_str);
         // filled avg price 
-        safeStrcpy(order.time_in_force, getOrDefault(data, "time_in_force", "utc"));
+        safeStrcpy(order.time_in_force, std::string(getOrDefault(data, "time_in_force", std::string("utc"))));
 
     } catch (const std::exception &e){
         std::cerr << "Failed to parse JSON for order: " << e.what() << std::endl;

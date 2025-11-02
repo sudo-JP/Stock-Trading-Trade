@@ -6,8 +6,10 @@ NINJA = ninja -C build
 IDE = ln -sf build/compile_commands.json ./
 
 all:
-	@bash -c '$(ENV) && $(CMAKE) && $(NINJA) && $(IDE)'
+	@bash -c '$(CMAKE) && $(NINJA) && $(IDE)'
 
+run: 
+	@bash -c '$(ENV) && ./build/src/trade'
 
 clean:
 	@rm -rf build/
