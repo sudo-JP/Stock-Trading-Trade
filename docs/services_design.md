@@ -118,3 +118,28 @@ Key points:
   'expires_at': '2026-01-29T21:00:00Z'
 }
 ```
+
+## Asset
+One asset, calling /assets will return an array of single asset like this
+```javascript
+{
+  'id': '4ce9353c-66d1-46c2-898f-fce867ab0247',
+  'class': 'us_equity',
+  'exchange': 'NASDAQ',
+  'symbol': 'NVDA',
+  'name': 'NVIDIA Corporation Common Stock',
+  'status': 'active',
+  'tradable': True,
+  'marginable': True,
+  'maintenance_margin_requirement': 30,
+  'margin_requirement_long': '30',
+  'margin_requirement_short': '30',
+  'shortable': True,
+  'easy_to_borrow': True,
+  'fractionable': True,
+  'attributes': [
+    'fractional_eh_enabled',
+    'has_options'
+  ]
+}
+```
