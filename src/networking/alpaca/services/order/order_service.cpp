@@ -4,6 +4,31 @@
 #include <iomanip>
 
 
+
+    // Timestamps (nanoseconds)
+    int64_t created_at;
+    int64_t updated_at;
+    int64_t submitted_at;
+    int64_t filled_at;        
+    char status[16]; 
+
+    // Core order info
+    char asset_id[64]; 
+    char symbol[16];           
+    char side[8];               
+    char type[16];               
+    char time_in_force[8];        
+
+    uint32_t qty;            
+    uint32_t filled_qty;      
+    float filled_avg_price;    
+
+    char asset_class[16];       
+    char position_intent[16];    
+    float notional;               
+    float limit_price;          
+    float stop_price;            
+    char extended_hours;          
 OrderBinaryPayload OrderService::processOrderSync(OrderPayload order_payload) {
     httplib::SSLClient client(env.URL); 
     httplib::Headers headers = {
@@ -31,12 +56,14 @@ OrderBinaryPayload OrderService::processOrderSync(OrderPayload order_payload) {
     try {
 
         json data = json::parse(res->body);
+        safeStrcpy(order.id, std::string(getOrDefault(data, "id", std::string(""))));
+
+        // Timestamps 
         order.created_at = parseTime(data, "created_at");
         order.filled_at = parseTime(data, "filled_at");
         order.submitted_at = parseTime(data, "submitted_at");
         order.updated_at = parseTime(data, "updated_at");
 
-        safeStrcpy(order.id, std::string(getOrDefault(data, "id", std::string(""))));
         //safeStrcpy(order.client_order_id, getOrDefault(data, "client_order_id", ""));
         safeStrcpy(order.symbol, std::string(getOrDefault(data, "symbol", std::string(""))));
         safeStrcpy(order.side, std::string(getOrDefault(data, "side", std::string(""))));

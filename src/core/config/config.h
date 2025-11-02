@@ -40,26 +40,9 @@ inline T jsonToNumber(const nlohmann::json &j, const std::string &key, T fallbac
     return fallback;
 }
 
-inline int64_t parseTime(const nlohmann::json &data, const std::string &key) {
-    if (data[key].is_null()) {
-        return 0; 
-    } 
-    std::string time = data[key]; 
-    time.erase(std::remove(time.begin(), time.end(), 'Z'), time.end()); 
-    std::istringstream iss(time); 
-    std::tm t = {};
 
-    if (!(iss >> std::get_time(&t, "%Y-%m-%dT%H:%M:%S"))) {
-        return 0; 
-    }
-    time_t epoch = timegm(&t); 
-    auto tp = std::chrono::system_clock::from_time_t(epoch);
-    auto ns = std::chrono::time_point_cast<std::chrono::nanoseconds>(tp)
-              .time_since_epoch()
-              .count();
 
-    return ns; 
-}
+int64_t parseTime(const nlohmann::json &data, const std::string &key);
 int64_t timeToi64(std::chrono::system_clock::time_point t);
 
 

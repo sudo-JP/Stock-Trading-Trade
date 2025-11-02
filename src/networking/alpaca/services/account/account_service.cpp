@@ -3,16 +3,6 @@
 #include <boost/algorithm/string.hpp>
 
 
-AccountStatus getStatus(std::string &status) {
-    if (status == "ACTIVE") return AccountStatus::ACTIVE; 
-    else if (status == "REJECTED") return AccountStatus::REJECTED; 
-    else if (status == "APPROVAL_PENDING") return AccountStatus::APPROVAL_PENDING; 
-    else if (status == "ACCOUNT_UPDATED") return AccountStatus::ACCOUNT_UPDATED;
-    else if (status == "SUBMITTED") return AccountStatus::SUBMITTED; 
-    else if (status == "SUBMISSION_FAILED") return AccountStatus::SUBMISSION_FAILED;
-    else if (status == "ONBOARDING") return AccountStatus::ONBOARDING;
-    else return AccountStatus::UNKNOWN;
-}
 
 AccountBinaryPayload AccountService::getAccountSync(bool refreshed) {
     if (!refreshed) return account; 
@@ -36,7 +26,7 @@ AccountBinaryPayload AccountService::getAccountSync(bool refreshed) {
         json data = json::parse(res->body); 
 
         // id and currency
-        safeStrcpy(account.account_id, std::string(getOrDefault(data, "id", std::string("")))); 
+        safeStrcpy(account.id, std::string(getOrDefault(data, "id", std::string("")))); 
         safeStrcpy(account.currency, std::string(getOrDefault(data, "currency", std::string("USD"))));
 
         // Estimate numeric 
@@ -59,10 +49,9 @@ AccountBinaryPayload AccountService::getAccountSync(bool refreshed) {
         account.portfolio_value = jsonToNumber<double>(data, "portfolio_value");
 
         // Metadata 
-        std::string status = std::string(getOrDefault(data, "status", std::string(""))); 
-        account.status = statusTouint32(getStatus(status));
+        safeStrcpy(account.status, std::string(getOrDefault(data, "status", std::string("UNKNOWN")))); 
         std::string crypto_status = std::string(getOrDefault(data, "crypto_status", std::string(""))); 
-        account.crypto_status = statusTouint32(getStatus(crypto_status));
+        safeStrcpy(account.crypto_status, std::string(getOrDefault(data, "status", std::string("UNKNOWN")))); 
         account.balance_asof = timeToi64(std::chrono::system_clock::now());
         account.daytrade_count = jsonToNumber<double>(data, "daytrade_count"); 
 
@@ -80,6 +69,3 @@ std::future<AccountBinaryPayload> AccountService::getAccount(bool refreshed) {
     });
 }
 
-bool AccountService::canTrade(double required_amount) {
-   return account.status == statusTouint32(BinaryStatus::ACTIVE) && account.buying_power >= required_amount; 
-}
