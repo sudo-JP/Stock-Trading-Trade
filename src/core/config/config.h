@@ -11,28 +11,20 @@ inline constexpr size_t length_c_arr(T (&)[N]) {
 }*/
 
 
-template<typename T>
-inline T getOrDefault(const nlohmann::json& data, const std::string& key, T default_value) {
-    if (!data.contains(key) || data[key].is_null()) 
-        return default_value; 
-    try {
-        return data[key].get<T>();
-    } catch (...) {
-        return default_value; 
-    }
+
+inline std::string getOrDefault(const nlohmann::json &data, const std::string &key, const std::string &def = "") {
+    if (data.contains(key) && data[key].is_string())
+        return data[key].get<std::string>();
+    return def;
 }
 
+inline bool getOrDefault(const nlohmann::json &data, const std::string &key, bool def) {
+    if (data.contains(key) && data[key].is_boolean())
+        return data[key].get<bool>();
+    return def;
+}
 template <size_t N>
-inline void safeStrcpy(char (&dest)[N], const nlohmann::json &j) {
-    std::string s;
-    if (j.is_string()) {
-        s = j.get<std::string>();
-    } else if (j.is_number()) {
-        s = std::to_string(j.get<double>()); // converts numeric types to string
-    } else {
-        s = ""; // fallback
-    }
-
+inline void safeStrcpy(char (&dest)[N], const std::string &s) {
     std::strncpy(dest, s.c_str(), N - 1);
     dest[N - 1] = '\0';
 }
@@ -48,26 +40,9 @@ inline T jsonToNumber(const nlohmann::json &j, const std::string &key, T fallbac
     return fallback;
 }
 
-inline int64_t parseTime(const nlohmann::json &data, const std::string &key) {
-    if (data[key].is_null()) {
-        return 0; 
-    } 
-    std::string time = data[key]; 
-    time.erase(std::remove(time.begin(), time.end(), 'Z'), time.end()); 
-    std::istringstream iss(time); 
-    std::tm t = {};
 
-    if (!(iss >> std::get_time(&t, "%Y-%m-%dT%H:%M:%S"))) {
-        return 0; 
-    }
-    time_t epoch = timegm(&t); 
-    auto tp = std::chrono::system_clock::from_time_t(epoch);
-    auto ns = std::chrono::time_point_cast<std::chrono::nanoseconds>(tp)
-              .time_since_epoch()
-              .count();
 
-    return ns; 
-}
+int64_t parseTime(const nlohmann::json &data, const std::string &key);
 int64_t timeToi64(std::chrono::system_clock::time_point t);
 
 

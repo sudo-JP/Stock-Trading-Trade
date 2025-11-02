@@ -23,28 +23,28 @@ std::vector<PositionBinaryPayload> PositionService::getPositionsSync(bool refres
         for (const auto &pos : data) {
             PositionBinaryPayload position;     
 
-            safeStrcpy(position.asset_id, getOrDefault(pos, "asset_id", ""));
-            safeStrcpy(position.symbol, getOrDefault(pos, "symbol", ""));
-            safeStrcpy(position.exchange, getOrDefault(pos, "exchange", ""));
-            safeStrcpy(position.asset_class, getOrDefault(pos, "asset_class", ""));
+            safeStrcpy(position.asset_id, std::string(getOrDefault(pos, "asset_id", std::string(""))));
+            safeStrcpy(position.symbol, std::string(getOrDefault(pos, "symbol", std::string(""))));
+            safeStrcpy(position.exchange, std::string(getOrDefault(pos, "exchange", std::string(""))));
+            safeStrcpy(position.asset_class, std::string(getOrDefault(pos, "asset_class", std::string(""))));
 
-            std::string qty = getOrDefault(pos, qty, "0"); 
+            std::string qty = std::string(getOrDefault(pos, qty, std::string("0"))); 
             position.qty = std::stoi(qty);
-            position.avg_entry_price = jsonToDouble(pos, "avg_entry_price");
+            position.avg_entry_price = jsonToNumber<double>(pos, "avg_entry_price");
 
-            safeStrcpy(position.side, getOrDefault(pos, "side", ""));
-            position.market_value = jsonToDouble(pos, "market_value");
+            safeStrcpy(position.side, std::string(getOrDefault(pos, "side", std::string(""))));
+            position.market_value = jsonToNumber<double>(pos, "market_value");
 
-            position.cost_basis = jsonToDouble(pos, "cost_basis");
-            position.unrealized_pl = jsonToDouble(pos, "unrealized_pl");
-            position.unrealized_plpc = jsonToDouble(pos, "unrealized_plpc");
+            position.cost_basis = jsonToNumber<double>(pos, "cost_basis");
+            position.unrealized_pl = jsonToNumber<double>(pos, "unrealized_pl");
+            position.unrealized_plpc = jsonToNumber<double>(pos, "unrealized_plpc");
 
-            position.unrealized_intraday_pl = jsonToDouble(pos, "unrealized_intraday_pl");
-            position.unrealized_intraday_plpc = jsonToDouble(pos, "unrealized_intraday_plpc");
+            position.unrealized_intraday_pl = jsonToNumber<double>(pos, "unrealized_intraday_pl");
+            position.unrealized_intraday_plpc = jsonToNumber<double>(pos, "unrealized_intraday_plpc");
 
-            position.current_price = jsonToDouble(pos, "current_price");
-            position.lastday_price = jsonToDouble(pos, "lastday_price");
-            position.change_today = jsonToDouble(pos, "change_today");
+            position.current_price = jsonToNumber<double>(pos, "current_price");
+            position.lastday_price = jsonToNumber<double>(pos, "lastday_price");
+            position.change_today = jsonToNumber<double>(pos, "change_today");
 
             positions.push_back(position);
         }

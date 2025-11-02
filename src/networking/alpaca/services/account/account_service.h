@@ -16,15 +16,6 @@ class AccountService {
 
         std::future<AccountBinaryPayload> getAccount(bool refreshed); 
 
-        /**
-        * @brief Checks if account is active and has sufficient buying power
-        * @param required_amount Minimum buying power needed for intended trade
-        * @return true if account can execute trades
-        */
-        bool canTrade(double required_amount = 0.0);
-
-
-
     private: 
         AccountBinaryPayload getAccountSync(bool refreshed = false); 
         AccountBinaryPayload account; 

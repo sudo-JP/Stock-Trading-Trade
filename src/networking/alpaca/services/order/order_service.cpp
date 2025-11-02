@@ -1,8 +1,5 @@
 #include "order_service.h"
 #include <future>
-#include <chrono> 
-#include <iomanip>
-
 
 OrderBinaryPayload OrderService::processOrderSync(OrderPayload order_payload) {
     httplib::SSLClient client(env.URL); 
@@ -31,27 +28,40 @@ OrderBinaryPayload OrderService::processOrderSync(OrderPayload order_payload) {
     try {
 
         json data = json::parse(res->body);
+        // Identity 
+        safeStrcpy(order.id, std::string(getOrDefault(data, "id", std::string(""))));
+
+        // Timestamps 
         order.created_at = parseTime(data, "created_at");
         order.filled_at = parseTime(data, "filled_at");
         order.submitted_at = parseTime(data, "submitted_at");
         order.updated_at = parseTime(data, "updated_at");
 
-        safeStrcpy(order.id, getOrDefault(data, "id", ""));
-        safeStrcpy(order.client_order_id, getOrDefault(data, "client_order_id", ""));
-        safeStrcpy(order.symbol, getOrDefault(data, "symbol", ""));
-        safeStrcpy(order.side, getOrDefault(data, "side", ""));
-        safeStrcpy(order.type, getOrDefault(data, "type", ""));
+        // Status 
+        safeStrcpy(order.status, std::string(getOrDefault(data, "status", std::string("UNKNOWN"))));
+
+        
+        // IDs 
+        safeStrcpy(order.asset_id, std::string(getOrDefault(data, "asset_id", std::string(""))));
+        safeStrcpy(order.symbol, std::string(getOrDefault(data, "symbol", std::string(""))));
+        safeStrcpy(order.side, std::string(getOrDefault(data, "side", std::string(""))));
+        safeStrcpy(order.type, std::string(getOrDefault(data, "type", std::string(""))));
+        safeStrcpy(order.time_in_force, std::string(getOrDefault(data, "time_in_force", std::string(""))));
 
 
-        std::string qty_str = getOrDefault<std::string>(data, "qty", "0");
-        order.qty = std::stoi(qty_str);
+        // Numbering 
+        order.qty = jsonToNumber<uint32_t>(data, "qty"); 
+        order.filled_qty = jsonToNumber<uint32_t>(data, "filled_qty"); 
+        order.filled_avg_price = jsonToNumber<float>(data, "filled_avg_price"); 
+        
+        // Asset and Position 
+        safeStrcpy(order.asset_class, std::string(getOrDefault(data, "asset_class", std::string(""))));
+        safeStrcpy(order.position_intent, std::string(getOrDefault(data, "position_intent", std::string(""))));
 
-        std::string filled_qty_str = getOrDefault(data, "filled_qty", "0"); 
-
-        order.filled_qty = std::stoi(filled_qty_str);
-        // filled avg price 
-        safeStrcpy(order.time_in_force, getOrDefault(data, "time_in_force", "utc"));
-
+        order.notional = jsonToNumber<float>(data, "notional"); 
+        order.limit_price = jsonToNumber<float>(data, "limit_price"); 
+        order.stop_price = jsonToNumber<float>(data, "stop_price"); 
+        order.extended_hours = getOrDefault(data, "extended_hours") ? 1 : 0; 
     } catch (const std::exception &e){
         std::cerr << "Failed to parse JSON for order: " << e.what() << std::endl;
     }

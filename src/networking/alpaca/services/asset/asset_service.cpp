@@ -25,12 +25,12 @@ std::vector<AssetBinaryPayload> AssetService::getAssetsSync() {
             AssetBinaryPayload asset; 
 
             // String identification 
-            safeStrcpy(asset.id, getOrDefault(data, "id", ""));
-            safeStrcpy(asset.symbol, getOrDefault(data, "symbol", ""));
-            safeStrcpy(asset.name, getOrDefault(data, "name", ""));
-            safeStrcpy(asset.asset_class, getOrDefault(data, "class", "")); 
-            safeStrcpy(asset.exchange, getOrDefault(data, "exchange", ""));
-            safeStrcpy(asset.status, getOrDefault(data, "status", "inactive"));
+            safeStrcpy(asset.id, std::string(getOrDefault(data, "id", std::string(""))));
+            safeStrcpy(asset.symbol, std::string(getOrDefault(data, "symbol", std::string(""))));
+            safeStrcpy(asset.name, std::string(getOrDefault(data, "name", std::string(""))));
+            safeStrcpy(asset.asset_class, std::string(getOrDefault(data, "class", std::string("")))); 
+            safeStrcpy(asset.exchange, std::string(getOrDefault(data, "exchange", std::string(""))));
+            safeStrcpy(asset.status, std::string(getOrDefault(data, "status", std::string("inactive"))));
 
 
             // Boolean 

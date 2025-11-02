@@ -5,19 +5,8 @@
 
 
 #pragma pack(1)
-enum class AccountStatus : int32_t {
-    UNKNOWN = 0,
-    ACTIVE = 1,
-    REJECTED = 2, 
-    APPROVAL_PENDING = 3, 
-    ACCOUNT_UPDATED = 4, 
-    SUBMITTED = 5, 
-    SUBMISSION_FAILED = 6, 
-    ONBOARDING = 7 
-};
-
 struct AccountBinaryPayload {
-    char account_id[64];     
+    char id[64];     
     char currency[4];         
 
     double cash;            
@@ -36,8 +25,8 @@ struct AccountBinaryPayload {
     double short_market_value;     
 
     // Metadata
-    int32_t status;
-    int32_t crypto_status;
+    char status[16];
+    char crypto_status[16];
     int64_t balance_asof;
     double daytrade_count;
 };
