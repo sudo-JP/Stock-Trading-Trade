@@ -41,9 +41,9 @@ std::vector<AssetBinaryPayload> AssetService::getAssetsSync() {
             asset.easy_to_borrow = getOrDefault(data, "easy_to_borrow", false) ? 1 : 0;
 
             // Margins 
-            asset.maintenance_margin_requirement = jsonToNumber<float>(data, "maintenance_margin_requirement");
-            asset.margin_requirement_long = jsonToNumber<float>(data, "margin_requirement_long");
-            asset.margin_requirement_short = jsonToNumber<float>(data, "margin_requirement_short"); 
+            asset.maintenance_margin_requirement = jsonToNumber<double>(data, "maintenance_margin_requirement");
+            asset.margin_requirement_long = jsonToNumber<double>(data, "margin_requirement_long");
+            asset.margin_requirement_short = jsonToNumber<double>(data, "margin_requirement_short"); 
 
             assets.push_back(asset);
         }

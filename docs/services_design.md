@@ -143,3 +143,29 @@ One asset, calling /assets will return an array of single asset like this
   ]
 }
 ```
+
+### Position 
+```javascript
+[
+  {
+    'asset_id': '4ce9353c-66d1-46c2-898f-fce867ab0247',
+    'symbol': 'NVDA',
+    'exchange': 'NASDAQ',
+    'asset_class': 'us_equity',
+    'asset_marginable': True,
+    'qty': '1',
+    'avg_entry_price': '206.07',
+    'side': 'long',
+    'market_value': '202.5',
+    'cost_basis': '206.07',
+    'unrealized_pl': '-3.57',
+    'unrealized_plpc': '-0.0173242102198282',
+    'unrealized_intraday_pl': '-3.57',
+    'unrealized_intraday_plpc': '-0.0173242102198282',
+    'current_price': '202.5',
+    'lastday_price': '202.89',
+    'change_today': '-0.0019222238651486',
+    'qty_available': '1'
+  }
+]
+```

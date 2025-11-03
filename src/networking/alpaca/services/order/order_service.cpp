@@ -50,17 +50,17 @@ OrderBinaryPayload OrderService::processOrderSync(OrderPayload order_payload) {
 
 
         // Numbering 
-        order.qty = jsonToNumber<uint32_t>(data, "qty"); 
-        order.filled_qty = jsonToNumber<uint32_t>(data, "filled_qty"); 
-        order.filled_avg_price = jsonToNumber<float>(data, "filled_avg_price"); 
+        order.qty = jsonToNumber<double>(data, "qty"); 
+        order.filled_qty = jsonToNumber<double>(data, "filled_qty"); 
+        order.filled_avg_price = jsonToNumber<double>(data, "filled_avg_price"); 
         
         // Asset and Position 
         safeStrcpy(order.asset_class, std::string(getOrDefault(data, "asset_class", std::string(""))));
         safeStrcpy(order.position_intent, std::string(getOrDefault(data, "position_intent", std::string(""))));
 
-        order.notional = jsonToNumber<float>(data, "notional"); 
-        order.limit_price = jsonToNumber<float>(data, "limit_price"); 
-        order.stop_price = jsonToNumber<float>(data, "stop_price"); 
+        order.notional = jsonToNumber<double>(data, "notional"); 
+        order.limit_price = jsonToNumber<double>(data, "limit_price"); 
+        order.stop_price = jsonToNumber<double>(data, "stop_price"); 
         order.extended_hours = getOrDefault(data, "extended_hours", false) ? 1 : 0; 
     } catch (const std::exception &e){
         std::cerr << "Failed to parse JSON for order: " << e.what() << std::endl;

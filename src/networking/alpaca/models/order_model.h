@@ -30,15 +30,15 @@ struct OrderBinaryPayload {
     char type[16];               
     char time_in_force[8];        
 
-    uint32_t qty;            
-    uint32_t filled_qty;      
-    float filled_avg_price;    
+    double qty;            
+    double filled_qty;      
+    double filled_avg_price;    
 
     char asset_class[16];       
     char position_intent[16];    
-    float notional;               
-    float limit_price;          
-    float stop_price;            
+    double notional;               
+    double limit_price;          
+    double stop_price;            
     char extended_hours;          
 };
 #pragma pack()
