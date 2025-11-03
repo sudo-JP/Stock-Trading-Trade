@@ -23,28 +23,34 @@ std::vector<PositionBinaryPayload> PositionService::getPositionsSync(bool refres
         for (const auto &pos : data) {
             PositionBinaryPayload position;     
 
+            // Indentifications 
             safeStrcpy(position.asset_id, std::string(getOrDefault(pos, "asset_id", std::string(""))));
             safeStrcpy(position.symbol, std::string(getOrDefault(pos, "symbol", std::string(""))));
             safeStrcpy(position.exchange, std::string(getOrDefault(pos, "exchange", std::string(""))));
             safeStrcpy(position.asset_class, std::string(getOrDefault(pos, "asset_class", std::string(""))));
-
-            std::string qty = std::string(getOrDefault(pos, qty, std::string("0"))); 
-            position.qty = std::stoi(qty);
-            position.avg_entry_price = jsonToNumber<double>(pos, "avg_entry_price");
-
             safeStrcpy(position.side, std::string(getOrDefault(pos, "side", std::string(""))));
-            position.market_value = jsonToNumber<double>(pos, "market_value");
 
+            // Numbers
+            position.qty = jsonToNumber<double>(pos, "qty"); 
+            position.qty_available = jsonToNumber<double>(pos, "qty_available");
+            position.avg_entry_price = jsonToNumber<double>(pos, "avg_entry_price");
+            position.market_value = jsonToNumber<double>(pos, "market_value");
             position.cost_basis = jsonToNumber<double>(pos, "cost_basis");
+
+            // PLs 
             position.unrealized_pl = jsonToNumber<double>(pos, "unrealized_pl");
             position.unrealized_plpc = jsonToNumber<double>(pos, "unrealized_plpc");
-
             position.unrealized_intraday_pl = jsonToNumber<double>(pos, "unrealized_intraday_pl");
             position.unrealized_intraday_plpc = jsonToNumber<double>(pos, "unrealized_intraday_plpc");
 
+            // Price 
             position.current_price = jsonToNumber<double>(pos, "current_price");
             position.lastday_price = jsonToNumber<double>(pos, "lastday_price");
             position.change_today = jsonToNumber<double>(pos, "change_today");
+
+            // Misc 
+            position.asset_marginable = getOrDefault(pos, "asset_marginable", false) ? 1 : 0; 
+            position.last_update = parseTime(pos, "last_update"); 
 
             positions.push_back(position);
         }

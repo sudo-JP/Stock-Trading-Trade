@@ -10,22 +10,22 @@ struct PositionBinaryPayload {
     char asset_class[16];
     char side[8];
 
-    float qty;
+    double qty;
     double qty_available;
-    float avg_entry_price;
-    float market_value;
-    float cost_basis;
+    double avg_entry_price;
+    double market_value;
+    double cost_basis;
 
-    float unrealized_pl;
-    float unrealized_plpc;
-    float unrealized_intraday_pl;
-    float unrealized_intraday_plpc;
+    double unrealized_pl;
+    double unrealized_plpc;
+    double unrealized_intraday_pl;
+    double unrealized_intraday_plpc;
 
-    float current_price;
-    float lastday_price;
-    float change_today;
+    double current_price;
+    double lastday_price;
+    double change_today;
 
-    bool asset_marginable;
+    char asset_marginable;
     int64_t last_update;  // nanoseconds
 };
 #pragma pack()
