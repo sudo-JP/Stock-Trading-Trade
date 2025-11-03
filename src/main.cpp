@@ -2,13 +2,19 @@
 #include "core/config/config.h"
 #include "networking/tcp/client/tcp_client.h"
 #include <iostream>
+#include <future>
 #define PORT_RANGE 100
 #define THREADS 100
 
 int main() {
     // Handshake 
-    ENV env = get_env();
-    TCPClient client(env);
+    ENV env = getEnv();
+    AccountService ser(env); 
+    std::cout << env.URL << std::endl;
+    AccountBinaryPayload payload = ser.getAccount(true).get();
+    std::cout << "ID: " << payload.account_id << std::endl;
+    
+    /*TCPClient client(env);
     BinaryMessage msg; 
     // Filler value 
     msg.sql_command = SQLCommand::INSERT;
@@ -29,6 +35,6 @@ int main() {
         std::cerr << "Failed to close connection with other repos" << std::endl;
         return -1; 
     }
-    client.disconnect();
+    client.disconnect();*/
     return 0;
 }
