@@ -18,9 +18,9 @@ struct AssetBinaryPayload {
     char fractionable;
     char easy_to_borrow;
 
-    float maintenance_margin_requirement;
-    float margin_requirement_long;
-    float margin_requirement_short;
+    double maintenance_margin_requirement;
+    double margin_requirement_long;
+    double margin_requirement_short;
 };
 #pragma pack()
 
