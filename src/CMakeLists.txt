@@ -24,10 +24,18 @@ target_include_directories(trade PRIVATE
 set(SERVICES "${CMAKE_CURRENT_SOURCE_DIR}/networking/alpaca/services")
 set(TCP "${CMAKE_CURRENT_SOURCE_DIR}/networking/tcp")
 set(CONFIG "${CMAKE_CURRENT_SOURCE_DIR}/core/config")
+set(UTILS "${CMAKE_CURRENT_SOURCE_DIR}/core/utils")
 
 # Config 
 add_library(config 
     ${CONFIG}/config.cpp
+)
+
+# Utils 
+add_library(utils 
+    ${UTILS}/threading/task_pool.cpp
+
+    ${UTILS}/time/time.cpp
 )
 
 # Alpaca Services
@@ -47,6 +55,7 @@ add_library(tcp_client
 target_compile_definitions(alpaca_services PUBLIC CPPHTTPLIB_OPENSSL_SUPPORT)
 target_compile_definitions(tcp_client PUBLIC CPPHTTPLIB_OPENSSL_SUPPORT)
 target_compile_definitions(config PUBLIC CPPHTTPLIB_OPENSSL_SUPPORT)
+target_compile_definitions(utils PUBLIC CPPHTTPLIB_OPENSSL_SUPPORT)
 
 target_include_directories(tcp_client PUBLIC  
     ${CMAKE_CURRENT_SOURCE_DIR}
@@ -59,6 +68,11 @@ target_include_directories(alpaca_services PUBLIC
 )
 
 target_include_directories(config PUBLIC 
+    ${CMAKE_CURRENT_SOURCE_DIR}
+    ${CMAKE_SOURCE_DIR}/library
+)
+
+target_include_directories(utils PUBLIC 
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_SOURCE_DIR}/library
 )

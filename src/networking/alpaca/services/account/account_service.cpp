@@ -1,8 +1,5 @@
-#include "account_service.h"
-#include <cstring>
+#include "account_service.hpp"
 #include <boost/algorithm/string.hpp>
-
-
 
 AccountBinaryPayload AccountService::getAccountSync(bool refreshed) {
     if (!refreshed) return account; 

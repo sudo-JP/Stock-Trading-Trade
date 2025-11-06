@@ -5,30 +5,6 @@
 #define _CONFIG_H_
 
 
-/*template <typename T, size_t N>
-inline constexpr size_t length_c_arr(T (&)[N]) {
-    return N;
-}*/
-
-
-
-inline std::string getOrDefault(const nlohmann::json &data, const std::string &key, const std::string &def = "") {
-    if (data.contains(key) && data[key].is_string())
-        return data[key].get<std::string>();
-    return def;
-}
-
-inline bool getOrDefault(const nlohmann::json &data, const std::string &key, bool def) {
-    if (data.contains(key) && data[key].is_boolean())
-        return data[key].get<bool>();
-    return def;
-}
-template <size_t N>
-inline void safeStrcpy(char (&dest)[N], const std::string &s) {
-    std::strncpy(dest, s.c_str(), N - 1);
-    dest[N - 1] = '\0';
-}
-
 
 template <typename T>
 inline T jsonToNumber(const nlohmann::json &j, const std::string &key, T fallback = T{}) {
@@ -42,8 +18,6 @@ inline T jsonToNumber(const nlohmann::json &j, const std::string &key, T fallbac
 
 
 
-int64_t parseTime(const nlohmann::json &data, const std::string &key);
-int64_t timeToi64(std::chrono::system_clock::time_point t);
 
 
 template<typename T>

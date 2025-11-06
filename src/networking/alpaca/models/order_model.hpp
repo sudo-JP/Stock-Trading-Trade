@@ -1,5 +1,5 @@
 #include <string>
-#include "core/status.h"
+#include "core/status.hpp"
 #ifndef _ORDER_MODEL_H_
 #define _ORDER_MODEL_H_
 

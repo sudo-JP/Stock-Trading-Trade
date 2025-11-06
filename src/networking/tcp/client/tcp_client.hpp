@@ -1,5 +1,5 @@
-#include "core/config/config.h"
-#include "networking/tcp/common/protocol.h"
+#include "core/config/config.hpp"
+#include "networking/tcp/common/protocol.hpp"
 #include <boost/asio.hpp>
 #ifndef _TCP_CLIENT_H
 #define _TCP_CLIENT_H
