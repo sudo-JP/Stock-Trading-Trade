@@ -1,10 +1,9 @@
 #include "consumer.hpp"
 
-bool connection = true; 
 
-void consumer(int id, TCPClient client, TaskPool tp) {
+void consumer(int id, TCPClient &client, TaskPool &tp, std::atomic<bool> &connection) {
     std::vector<std::function<void()>> works; 
-    while (connect) {
+    while (connection.load()) {
         works = tp.getWork(); 
         for (auto work : works) {
             work();
