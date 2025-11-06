@@ -58,5 +58,5 @@ struct Shutdown {
 std::vector<uint8_t> serialize(const BinaryMessage &msg, const void *payload, size_t payload_size);
 std::vector<uint8_t> serialize(const BinaryMessage &msg, const std::vector<void *> &payload, size_t payload_size);
 
-//deserialize(const std::string &data);
+void *deserialize(std::vector<uint8_t> stream);
 #endif 

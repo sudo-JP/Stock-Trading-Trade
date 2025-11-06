@@ -7,7 +7,9 @@ RUN apt-get update && apt-get install -y \
     libssl-dev  
 
 WORKDIR /app
+
 COPY . .
 
+RUN make 
 
-ENTRYPOINT ["/bin/bash", "-c", "source /app/.env && mkdir -p build && cd build && rm -rf CMakeCache.txt CMakeFiles && cmake .. -G Ninja && ninja && cd .. && exec ./build/src/trade"]
+CMD ["make run"]
