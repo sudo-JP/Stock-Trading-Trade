@@ -1,5 +1,6 @@
-#include "networking/alpaca/models/asset_model.h"
-#include "core/config/config.h"
+#include "networking/alpaca/models/asset_model.hpp"
+#include "core/config/config.hpp"
+#include "core/utils/common.hpp"
 #include <vector>
 #include <future>
 #ifndef _ASSET_SERVICE_H_

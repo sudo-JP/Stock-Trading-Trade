@@ -1,9 +1,13 @@
-#include "networking/alpaca/models/account_model.h"
+#include "networking/alpaca/models/account_model.hpp"
 #include <future>
 #include <string>
-#include "core/config/config.h"
+#include "core/config/config.hpp"
+#include "core/utils/common.hpp"
+#include "core/utils/time/time.hpp"
+
 #ifndef _ACCOUNT_SERVICE_H_
 #define _ACCOUNT_SERVICE_H_
+
 class AccountService {
     public: 
         AccountService(const ENV t_env) : env(t_env) {}

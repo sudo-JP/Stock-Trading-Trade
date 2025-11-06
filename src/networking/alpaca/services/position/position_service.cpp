@@ -1,4 +1,4 @@
-#include "position_service.h"
+#include "position_service.hpp"
 
 std::vector<PositionBinaryPayload> PositionService::getPositionsSync(bool refreshed) {
     if (!refreshed) return positions;

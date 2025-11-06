@@ -1,4 +1,4 @@
-#include "protocol.h"
+#include "protocol.hpp"
 #include <cstring>
 
 std::vector<uint8_t> serialize(const BinaryMessage &msg, const void *payload, size_t payload_size) {

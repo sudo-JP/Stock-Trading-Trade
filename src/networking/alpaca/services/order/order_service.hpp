@@ -1,7 +1,9 @@
-#include "networking/alpaca/models/order_model.h"
+#include "networking/alpaca/models/order_model.hpp"
+#include "core/utils/common.hpp"
 #include <future>
 #include <vector>
-#include "core/config/config.h"
+#include "core/config/config.hpp"
+#include "core/utils/time/time.hpp"
 #ifndef _ORDER_SERVICE_H
 #define _ORDER_SERVICE_H
 
