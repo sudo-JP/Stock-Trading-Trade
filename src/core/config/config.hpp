@@ -5,26 +5,6 @@
 #define _CONFIG_H_
 
 
-
-template <typename T>
-inline T jsonToNumber(const nlohmann::json &j, const std::string &key, T fallback = T{}) {
-    try {
-        if (j[key].is_null()) return fallback;
-        if (j[key].is_number()) return j[key].get<T>();
-        if (j[key].is_string()) return static_cast<T>(std::stod(j[key].get<std::string>()));
-    } catch (...) {}
-    return fallback;
-}
-
-
-
-
-
-template<typename T>
-inline constexpr int32_t statusTouint32(T status) {
-    return static_cast<int32_t>(status);
-}
-
 typedef struct env_t {
     const std::string ALPACA_KEY; 
     const std::string ALPACA_SECRET_KEY; 
