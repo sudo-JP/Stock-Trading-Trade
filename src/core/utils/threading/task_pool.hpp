@@ -13,7 +13,6 @@
 
 class TaskPool {
     public: 
-        TaskPool();
 
         void addWork(std::vector<std::function<void()>>funcs);
         

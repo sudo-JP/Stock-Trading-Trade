@@ -21,9 +21,9 @@
 - [x] TaskPool class 
 - [x] Producer method for pushing work to TaskPool
 - [x] CHUNK-based consumer method for getting tasks from TaskPool
-- [ ] Producer thread lifecycle: receive TCP data → create closures → push to TaskPool
-- [ ] Consumer thread lifecycle: pop closures → execute → handle errors → repeat until system_down
-- [ ] Set system_down flag → wake all threads → join threads → close connections
+- [x] Producer thread lifecycle: receive TCP data → create closures → push to TaskPool
+- [x] Consumer thread lifecycle: pop closures → execute → handle errors → repeat until system_down
+- [x] Set system_down flag → wake all threads → join threads → close connections
 
 ## TCP/Networking
 - [x] BinaryMessage struct 
@@ -40,7 +40,12 @@
 ## Main 
 - [x] Initial handshake protocol 
 - [x] Graceful shutdown protocol 
-- [ ] Spawn producer threads
-- [ ] Spawn consumer threads
-- [ ] Worker life cycle 
-- [ ] Close TCP connections after all threads finish
+- [x] Spawn producer threads
+- [x] Spawn consumer threads
+- [x] Worker life cycle 
+- [x] Close TCP connections after all threads finish
+
+## Testing 
+- [x] GET call to alpaca 
+- [ ] Sending data to backend (partially finished, data sent but haven't test serialize/deserialize)
+- [ ] Booting threads 

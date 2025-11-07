@@ -16,3 +16,12 @@ void Engine::start(size_t num_threads) {
     }
 } 
 
+
+
+void Engine::stop() {
+    connection.store(false); 
+
+    for (auto &t : threads_cons) if (t.joinable()) t.join();
+
+    for (auto &t : threads_prod) if (t.joinable()) t.join();
+}
