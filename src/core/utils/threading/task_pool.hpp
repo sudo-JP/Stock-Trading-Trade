@@ -1,4 +1,6 @@
 #include <condition_variable>
+#include "networking/tcp/common/protocol.hpp"
+#include "networking/tcp/client/tcp_client.hpp"
 #include <functional>
 #include <mutex>
 #include <deque>
@@ -13,7 +15,6 @@
 
 class TaskPool {
     public: 
-
         void addWork(std::vector<std::function<void()>>funcs);
         
         std::vector<std::function<void()>> getWork();
@@ -22,6 +23,18 @@ class TaskPool {
 
         std::mutex mtx;
         std::condition_variable cv; 
+};
+
+
+class OutboundQueue {
+   public: 
+        OutboundQueue(const ENV &env) : cli(env) {}; 
+        void addData(std::vector<TCPData> datas); 
+        void sendData();
+   private: 
+        std::mutex mtx; 
+        TCPClient cli; 
+        std::deque<TCPData> work; 
 };
 
 

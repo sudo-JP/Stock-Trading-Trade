@@ -29,3 +29,27 @@ std::vector<std::function<void()>> TaskPool::getWork() {
     }
     return jobs; 
 }
+
+void OutboundQueue::addData(std::vector<TCPData> datas) {
+    std::unique_lock<std::mutex> lock(mtx);  
+    for (auto data : datas) {
+        work.push_back(data); 
+    }
+}
+
+
+void OutboundQueue::sendData() {
+    std::vector<TCPData> batch; 
+    {
+        std::unique_lock<std::mutex> lock(mtx); 
+        while (!work.empty()) {
+            TCPData data = work.front(); 
+            work.pop_front(); 
+            batch.push_back(std::move(data)); 
+        }
+    }
+    for (TCPData data : batch) {
+        cli.send_data(data.bn, data.payload, data.payload_size);
+    }
+    
+}
