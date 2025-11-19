@@ -3,13 +3,12 @@
 #include "networking/tcp/client/tcp_client.hpp"
 #include <iostream>
 #include "execution/engine.hpp"
-#include <future>
 #define PORT_RANGE 100
 #define THREADS 100
 
 int main() {
     // Handshake 
-    ENV env = getEnv();
+    ENV env = ENV::getInstance();
     TCPClient client(env); 
     TCPServer server(env); 
     TaskPool tp; 

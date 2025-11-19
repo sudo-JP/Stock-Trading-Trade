@@ -8,7 +8,7 @@ bool TCPClient::send_data(BinaryMessage msg, void *payload, size_t payload_size)
     std::vector<uint8_t> message = serialize(msg, payload, payload_size); 
 
     boost::system::error_code ec;
-std::cout << "Attempting to send: " << message.size() << " bytes" << std::endl;
+    std::cout << "Attempting to send: " << message.size() << " bytes" << std::endl;
     boost::asio::write(socket, boost::asio::buffer(message), ec);
 
     if (ec) {

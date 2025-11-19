@@ -50,6 +50,12 @@ struct Shutdown {
 }; 
 #pragma pack()
 
+struct TCPData {
+    BinaryMessage bn; 
+    void *payload; 
+    size_t payload_size;
+}; 
+
 /*
  * caller of these functions must initialize their own BinaryMessage heaer 
  * that means the caller must be aware if the value put in is a struct or 
